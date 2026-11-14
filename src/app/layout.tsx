@@ -18,8 +18,11 @@ export const metadata: Metadata = {
   description:
     "Reporta y resuelve problemas en sitios web y landing pages con seguimiento por SLA de 24 horas.",
   icons: {
-    icon: "/logo.webp",
-    apple: "/logo.webp",
+    icon: [
+      { url: "/logo.png", type: "image/png" },
+      { url: "/logo.webp", type: "image/webp" },
+    ],
+    apple: "/apple-icon.png",
   },
 };
 

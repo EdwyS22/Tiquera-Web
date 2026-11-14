@@ -10,12 +10,13 @@ export function SiteHeader() {
           className="flex items-center gap-2.5 font-bold tracking-tight text-slate-900"
         >
           <Image
-            src="/logo.webp"
+            src="/logo.png"
             alt="Logo Tiquera Web"
-            width={36}
-            height={36}
-            className="h-9 w-9 object-contain rounded-lg"
+            width={38}
+            height={38}
+            className="h-9 w-9 object-contain"
             priority
+            unoptimized
           />
           <span>Tiquera Web</span>
         </Link>

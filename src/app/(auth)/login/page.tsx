@@ -13,12 +13,13 @@ export default function LoginPage() {
       <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
         <div className="mb-6 flex items-center gap-3">
           <Image
-            src="/logo.webp"
+            src="/logo.png"
             alt="Logo Tiquera Web"
             width={48}
             height={48}
-            className="h-12 w-12 object-contain rounded-xl shadow-xs"
+            className="h-12 w-12 object-contain"
             priority
+            unoptimized
           />
           <div>
             <span className="font-bold tracking-tight text-slate-900 text-lg block leading-tight">
