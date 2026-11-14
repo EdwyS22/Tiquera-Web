@@ -133,13 +133,26 @@ export async function assignTicket(
     newAssigneeId
       ? prisma.staffUser.findUnique({
           where: { id: newAssigneeId },
-          select: { name: true },
+          select: { name: true, role: true, area: true },
         })
       : null,
   ]);
 
   if (parsed.data.assignedToId && !nextAssignee) {
     return { message: "El usuario seleccionado no existe." };
+  }
+
+  // Regla de asignación estricta por área
+  if (nextAssignee) {
+    const isNextAdmin =
+      nextAssignee.role === "admin" || nextAssignee.role === "superadmin";
+    const isSameArea = nextAssignee.area === ticket.area;
+
+    if (!isNextAdmin && !isSameArea) {
+      return {
+        message: `Este ticket pertenece al área de ${AREA_LABELS[ticket.area]}. Solo puede ser asignado a administradores o trabajadores de dicha área. Para asignarlo a este trabajador, primero debes mover el ticket de área.`,
+      };
+    }
   }
 
   await prisma.ticket.update({
@@ -226,6 +239,7 @@ export async function updateTicket(
     landingUrl: formData.get("landingUrl"),
     reporterEmail: formData.get("reporterEmail"),
     area: formData.get("area"),
+    product: formData.get("product")?.toString().trim() || undefined,
     category: formData.get("category"),
     priority: formData.get("priority"),
     description: formData.get("description"),
@@ -248,6 +262,7 @@ export async function updateTicket(
       product: true,
       category: true,
       priority: true,
+      assignedTo: { select: { id: true, name: true, role: true, area: true } },
     },
   });
 
@@ -274,8 +289,34 @@ export async function updateTicket(
   if (ticket.reporterEmail !== parsed.data.reporterEmail) {
     changes.push({ field: "reporterEmail", label: "Correo del reportero", oldValue: ticket.reporterEmail, newValue: parsed.data.reporterEmail });
   }
+
+  let newAssignedToId: string | null | undefined = undefined;
+
   if (ticket.area !== parsed.data.area) {
-    changes.push({ field: "area", label: "Área", oldValue: AREA_LABELS[ticket.area], newValue: AREA_LABELS[parsed.data.area] });
+    changes.push({
+      field: "area",
+      label: "Área",
+      oldValue: AREA_LABELS[ticket.area],
+      newValue: AREA_LABELS[parsed.data.area],
+    });
+
+    // Si el ticket cambia de área y estaba asignado a un trabajador (no admin) de la anterior área:
+    if (ticket.assignedTo) {
+      const isAssigneeAdmin =
+        ticket.assignedTo.role === "admin" ||
+        ticket.assignedTo.role === "superadmin";
+      const isSameAsNewArea = ticket.assignedTo.area === parsed.data.area;
+
+      if (!isAssigneeAdmin && !isSameAsNewArea) {
+        newAssignedToId = null;
+        changes.push({
+          field: "assignedTo",
+          label: "Asignación",
+          oldValue: ticket.assignedTo.name,
+          newValue: `Desasignado (ticket movido a ${AREA_LABELS[parsed.data.area]})`,
+        });
+      }
+    }
   }
   if ((ticket.product ?? "") !== (parsed.data.product ?? "")) {
     changes.push({
@@ -310,6 +351,7 @@ export async function updateTicket(
       category: parsed.data.category,
       priority: parsed.data.priority,
       description: parsed.data.description,
+      ...(newAssignedToId !== undefined ? { assignedToId: newAssignedToId } : {}),
     },
   });
 

@@ -24,6 +24,7 @@ import {
   STATUS_STYLES,
   formatRemaining,
   isOpenStatus,
+  type StaffRole,
   type TicketArea,
   type TicketCategory,
   type TicketPriority,
@@ -31,7 +32,12 @@ import {
 } from "@/lib/tickets";
 import type { FormState } from "@/lib/validation";
 
-type StaffOption = { id: string; name: string; area?: string };
+type StaffOption = {
+  id: string;
+  name: string;
+  area?: TicketArea;
+  role?: StaffRole;
+};
 
 export type TicketMessageItem = {
   id: string;
@@ -168,6 +174,20 @@ export function TicketManager({
   const [editProduct, setEditProduct] = useState<string>(ticket.product || "");
   const [activeTab, setActiveTab] = useState<"client" | "internal" | "resolve" | "columns">("client");
 
+  // Regla de asignación estricta: Solo administradores o personal del área del ticket
+  const eligibleStaffList = staffList.filter((s) => {
+    const isAdmin = s.role === "admin" || s.role === "superadmin";
+    const isSameArea = s.area === ticket.area;
+    return isAdmin || isSameArea;
+  });
+
+  const areaAgents = eligibleStaffList.filter(
+    (s) => s.area === ticket.area && s.role === "agent",
+  );
+  const adminUsers = eligibleStaffList.filter(
+    (s) => s.role === "admin" || s.role === "superadmin",
+  );
+
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-[380px_1fr] xl:grid-cols-[420px_1fr] 2xl:grid-cols-[450px_1fr] items-start">
       {/* ========================================================================= */}
@@ -251,11 +271,24 @@ export function TicketManager({
                 className="w-full rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs text-slate-900 outline-none focus:border-blue-500"
               >
                 <option value="">Sin asignar (En espera)</option>
-                {staffList.map((staff) => (
-                  <option key={staff.id} value={staff.id}>
-                    {staff.name} {staff.area ? `(${AREA_LABELS[staff.area as keyof typeof AREA_LABELS] ?? staff.area})` : ""}
-                  </option>
-                ))}
+                {areaAgents.length > 0 ? (
+                  <optgroup label={`Personal de ${AREA_LABELS[ticket.area]}`}>
+                    {areaAgents.map((staff) => (
+                      <option key={staff.id} value={staff.id}>
+                        👤 {staff.name}
+                      </option>
+                    ))}
+                  </optgroup>
+                ) : null}
+                {adminUsers.length > 0 ? (
+                  <optgroup label="Administradores">
+                    {adminUsers.map((staff) => (
+                      <option key={staff.id} value={staff.id}>
+                        👑 {staff.name} ({staff.role === "superadmin" ? "Superadmin" : "Admin"})
+                      </option>
+                    ))}
+                  </optgroup>
+                ) : null}
               </select>
               <button
                 type="submit"
@@ -265,6 +298,9 @@ export function TicketManager({
                 {assignPending ? "..." : "Asignar"}
               </button>
             </div>
+            <p className="text-[10px] text-slate-400 mt-1 leading-tight">
+              🔒 Solo asignable a personal de {AREA_LABELS[ticket.area]} o administradores. Para asignar a otro trabajador, mueve el ticket de área.
+            </p>
             <Feedback state={assignState} />
           </form>
         </div>

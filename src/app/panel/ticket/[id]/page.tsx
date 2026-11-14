@@ -59,7 +59,7 @@ export default async function PanelTicketPage({
     }),
     prisma.staffUser.findMany({
       where: { active: true },
-      select: { id: true, name: true, area: true },
+      select: { id: true, name: true, area: true, role: true },
       orderBy: { name: "asc" },
     }),
   ]);
