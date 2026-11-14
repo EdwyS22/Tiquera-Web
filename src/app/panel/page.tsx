@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import { KanbanBoard } from "@/components/kanban-board";
 import { requireStaff } from "@/lib/dal";
 import { prisma } from "@/lib/db";
@@ -13,8 +11,7 @@ import {
 } from "@/lib/tickets";
 import type { TicketArea, TicketStatus } from "@/generated/prisma/enums";
 
-const STATUS_FILTERS: Array<TicketStatus | "all"> = [
-  "all",
+const VALID_STATUSES: TicketStatus[] = [
   "pending",
   "in_progress",
   "in_review",
@@ -52,13 +49,14 @@ export default async function PanelPage({
     console.warn("[panel] Aviso al expirar tickets automáticamente:", err);
   }
 
-  const statusFilter = STATUS_FILTERS.includes(status as TicketStatus)
-    ? (status as TicketStatus)
-    : undefined;
+  const statusFilter =
+    status && status !== "all" && VALID_STATUSES.includes(status as TicketStatus)
+      ? (status as TicketStatus)
+      : undefined;
 
   // Solo los superadmin pueden ver todos los tickets o filtrar por cualquier área; los demás trabajadores solo ven los de su área
   const areaFilter = isSuperadmin
-    ? AREAS.includes(area as TicketArea)
+    ? area && area !== "all" && AREAS.includes(area as TicketArea)
       ? (area as TicketArea)
       : undefined
     : staff.area;
@@ -216,9 +214,10 @@ export default async function PanelPage({
             defaultValue={status ?? "all"}
             className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
           >
-            {STATUS_FILTERS.map((item) => (
+            <option value="all">Todos los estados</option>
+            {VALID_STATUSES.map((item) => (
               <option key={item} value={item}>
-                {item === "all" ? "Todos los estados" : STATUS_LABELS[item]}
+                {STATUS_LABELS[item]}
               </option>
             ))}
           </select>
@@ -246,12 +245,12 @@ export default async function PanelPage({
           >
             Filtrar
           </button>
-          <Link
+          <a
             href="/panel"
             className="flex-1 rounded-lg border border-slate-300 bg-white px-4 py-2 text-center text-xs sm:text-sm font-medium text-slate-700 transition hover:bg-slate-50 active:bg-slate-100 sm:flex-none"
           >
             Limpiar
-          </Link>
+          </a>
         </div>
       </form>
 
