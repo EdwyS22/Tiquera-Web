@@ -24,20 +24,29 @@ export async function login(
 
   const { email, password } = parsed.data;
 
-  const user = await prisma.staffUser.findUnique({
-    where: { email },
-    select: { id: true, passwordHash: true, role: true, active: true },
-  });
+  try {
+    const user = await prisma.staffUser.findUnique({
+      where: { email },
+      select: { id: true, passwordHash: true, role: true, active: true },
+    });
 
-  const isValid = user
-    ? await compare(password, user.passwordHash)
-    : await compare(password, DUMMY_HASH);
+    const isValid = user
+      ? await compare(password, user.passwordHash)
+      : await compare(password, DUMMY_HASH);
 
-  if (!user || !user.active || !isValid) {
-    return { message: "Credenciales incorrectas o cuenta desactivada." };
+    if (!user || !user.active || !isValid) {
+      return { message: "Credenciales incorrectas o cuenta desactivada." };
+    }
+
+    await createSession({ userId: user.id, role: user.role });
+  } catch (err) {
+    console.error("[auth] Error durante el inicio de sesión:", err);
+    return {
+      message:
+        "Error al conectar con la base de datos de usuarios. Verifica la configuración.",
+    };
   }
 
-  await createSession({ userId: user.id, role: user.role });
   redirect("/panel");
 }
 
