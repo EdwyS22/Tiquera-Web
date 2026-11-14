@@ -1,0 +1,37 @@
+import Link from "next/link";
+import type { Metadata } from "next";
+
+import { ReportForm } from "@/components/report-form";
+import { requireStaff } from "@/lib/dal";
+
+export const metadata: Metadata = {
+  title: "Nuevo ticket | Tiquera Web",
+};
+
+export default async function NewTicketPage() {
+  await requireStaff();
+
+  return (
+    <div className="mx-auto flex w-full max-w-2xl flex-col gap-5 sm:gap-6">
+      <Link
+        href="/panel"
+        aria-label="Volver al panel"
+        className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-xs transition hover:bg-slate-50 hover:text-slate-900 active:bg-slate-100"
+      >
+        <span className="text-base font-bold leading-none">&larr;</span>
+      </Link>
+
+      <header>
+        <h1 className="text-2xl font-bold tracking-tight">Nuevo ticket</h1>
+        <p className="mt-1 text-sm text-slate-600">
+          Registra un reporte en nombre del cliente. Quedaras registrado como
+          creador del ticket (visible solo para superadmins).
+        </p>
+      </header>
+
+      <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+        <ReportForm staffMode />
+      </div>
+    </div>
+  );
+}

@@ -1,0 +1,178 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+enum StaffRole {
+  admin
+  agent
+  superadmin
+}
+
+enum TicketStatus {
+  pending
+  in_progress
+  in_review
+  completed
+  expired
+}
+
+enum TicketPriority {
+  low
+  medium
+  high
+}
+
+enum TicketCategory {
+  diseno
+  funcionalidad
+  contenido
+  performance
+}
+
+enum TicketArea {
+  estrategia
+  tecnologia
+  marketing
+  finanzas
+}
+
+model StaffUser {
+  id               String      @id @default(cuid())
+  name             String
+  email            String      @unique
+  passwordHash     String
+  mailAppPassword  String?
+  role             StaffRole   @default(agent)
+  area             TicketArea  @default(tecnologia)
+  active           Boolean     @default(true)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  assignedTickets Ticket[]       @relation("AssignedTickets")
+  createdTickets  Ticket[]       @relation("CreatedTickets")
+  notes           TicketNote[]
+  messages        TicketMessage[]
+  activities      TicketActivity[]
+  notifications   Notification[]
+}
+
+model Ticket {
+  id            String         @id @default(cuid())
+  code          String         @unique
+  title         String
+  landingUrl    String
+  reporterEmail String
+  description   String
+  category      TicketCategory
+  area          TicketArea     @default(tecnologia)
+  product       String?
+  priority      TicketPriority @default(medium)
+  status        TicketStatus   @default(pending)
+
+  assignedToId String?
+  assignedTo   StaffUser? @relation("AssignedTickets", fields: [assignedToId], references: [id], onDelete: SetNull)
+
+  createdById String?
+  createdBy   StaffUser? @relation("CreatedTickets", fields: [createdById], references: [id], onDelete: SetNull)
+
+  resolutionNotes String?
+  resolutionAt    DateTime?
+
+  attachments Attachment[]
+  notes       TicketNote[]
+  messages    TicketMessage[]
+  activities  TicketActivity[]
+  notifications Notification[]
+
+  dueAt     DateTime
+  closedAt  DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([status])
+  @@index([area])
+  @@index([dueAt])
+  @@index([assignedToId])
+  @@index([createdById])
+}
+
+model TicketNote {
+  id       String     @id @default(cuid())
+  body     String
+  ticketId String
+  ticket   Ticket     @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  authorId String?
+  author   StaffUser? @relation(fields: [authorId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+
+  @@index([ticketId])
+}
+
+model TicketMessage {
+  id        String     @id @default(cuid())
+  body      String
+  emailSent Boolean    @default(false)
+  ticketId  String
+  ticket    Ticket     @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  authorId  String?
+  author    StaffUser? @relation(fields: [authorId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+
+  @@index([ticketId])
+}
+
+model TicketActivity {
+  id       String     @id @default(cuid())
+  action   String
+  field    String?
+  oldValue String?
+  newValue String?
+  ticketId String
+  ticket   Ticket     @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  actorId  String?
+  actor    StaffUser? @relation(fields: [actorId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+
+  @@index([ticketId])
+}
+
+model Notification {
+  id          String     @id @default(cuid())
+  type        String
+  title       String
+  body        String
+  readAt      DateTime?
+  ticketId    String?
+  ticket      Ticket?    @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  recipientId String?
+  recipient   StaffUser? @relation(fields: [recipientId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@index([recipientId, readAt])
+  @@index([ticketId])
+}
+
+model Attachment {
+  id       String  @id @default(cuid())
+  fileUrl  String
+  fileName String
+  fileType String
+  fileSize Int
+  publicId String?
+
+  ticketId String
+  ticket   Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@index([ticketId])
+}
