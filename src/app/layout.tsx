@@ -17,6 +17,10 @@ export const metadata: Metadata = {
   title: "Tiquera Web",
   description:
     "Reporta y resuelve problemas en sitios web y landing pages con seguimiento por SLA de 24 horas.",
+  icons: {
+    icon: "/logo.webp",
+    apple: "/logo.webp",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

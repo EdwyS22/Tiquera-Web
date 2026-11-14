@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export function SiteHeader() {
@@ -6,11 +7,16 @@ export function SiteHeader() {
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
         <Link
           href="/panel"
-          className="flex items-center gap-2 font-bold tracking-tight text-slate-900"
+          className="flex items-center gap-2.5 font-bold tracking-tight text-slate-900"
         >
-          <span className="grid h-8 w-8 place-items-center rounded-lg bg-blue-600 text-sm font-bold text-white">
-            T
-          </span>
+          <Image
+            src="/logo.webp"
+            alt="Logo Tiquera Web"
+            width={36}
+            height={36}
+            className="h-9 w-9 object-contain rounded-lg"
+            priority
+          />
           <span>Tiquera Web</span>
         </Link>
 

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { NotificationsBell } from "@/components/notifications-bell";
@@ -19,11 +20,16 @@ export default async function PanelLayout({
           <div className="flex items-center gap-3 sm:gap-6">
             <Link
               href="/panel"
-              className="flex items-center gap-2 text-base sm:text-lg font-bold tracking-tight text-slate-900 focus:outline-none"
+              className="flex items-center gap-2.5 text-base sm:text-lg font-bold tracking-tight text-slate-900 focus:outline-none"
             >
-              <span className="grid h-8 w-8 place-items-center rounded-lg bg-blue-600 text-sm font-bold text-white shadow-xs">
-                T
-              </span>
+              <Image
+                src="/logo.webp"
+                alt="Logo Tiquera Web"
+                width={36}
+                height={36}
+                className="h-9 w-9 object-contain rounded-lg"
+                priority
+              />
               <span className="font-bold tracking-tight">Tiquera Web</span>
             </Link>
 
