@@ -96,7 +96,21 @@ async function send(
 
   let lastError: string | undefined;
 
-  // 1. Canal principal prioritario: Resend (si está configurada la API Key)
+  // 1. Si el especialista/empleado tiene configurado su propio Gmail con clave de aplicación
+  if (sender) {
+    try {
+      await sendViaGmail(sender, recipients, subject, html, attachments);
+      return { delivered: true, channel: "user-gmail" };
+    } catch (error) {
+      lastError = error instanceof Error ? error.message : String(error);
+      console.warn(
+        `[mail] Falló envío desde ${sender.user}, continuando con canales alternativos:`,
+        error,
+      );
+    }
+  }
+
+  // 2. Canal de producción/transaccional: Resend (si está configurada la API Key)
   if (resendEnabled) {
     try {
       // Con el remitente de pruebas de Resend (onboarding@resend.dev), Resend sólo permite enviar
@@ -145,20 +159,6 @@ async function send(
     } catch (error) {
       lastError = error instanceof Error ? error.message : String(error);
       console.warn(`[mail] Aviso Resend (continuando con canales de respaldo):`, lastError);
-    }
-  }
-
-  // 2. Si el empleado tiene configurado su propio Gmail con clave de aplicación
-  if (sender) {
-    try {
-      await sendViaGmail(sender, recipients, subject, html, attachments);
-      return { delivered: true, channel: "user-gmail" };
-    } catch (error) {
-      lastError = error instanceof Error ? error.message : String(error);
-      console.warn(
-        `[mail] Falló envío desde ${sender.user}, usando remitente global:`,
-        error,
-      );
     }
   }
 
