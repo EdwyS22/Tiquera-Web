@@ -170,6 +170,7 @@ export function TicketManager({
   >(resolveTicket, undefined);
 
   const [showEditForm, setShowEditForm] = useState<boolean>(false);
+  const [mobileParamsOpen, setMobileParamsOpen] = useState<boolean>(false);
   const [editArea, setEditArea] = useState<TicketArea>(ticket.area);
   const [editProduct, setEditProduct] = useState<string>(ticket.product || "");
   const [activeTab, setActiveTab] = useState<"client" | "internal" | "resolve" | "columns">("client");
@@ -193,26 +194,49 @@ export function TicketManager({
       {/* ========================================================================= */}
       {/* ⚙️ COLUMNA IZQUIERDA: PARÁMETROS DEL TICKET CON EL MÁXIMO ORDEN           */}
       {/* ========================================================================= */}
-      <aside className="flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 shadow-xs lg:sticky lg:top-20">
+      <aside className="flex flex-col gap-3 sm:gap-4 rounded-2xl border border-slate-200 bg-white p-3.5 sm:p-5 shadow-xs lg:sticky lg:top-20">
         {/* Cabecera del Panel de Parámetros */}
-        <div className="border-b border-slate-100 pb-3">
-          <div className="flex items-center justify-between">
-            <h2 className="text-xs font-bold uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
-              <span>⚙️</span>
-              <span>Parámetros del Ticket</span>
-            </h2>
-            <button
-              type="button"
-              onClick={() => setShowEditForm(!showEditForm)}
-              className="text-[11px] font-semibold text-blue-600 hover:underline"
-            >
-              {showEditForm ? "Cerrar edición" : "✏️ Editar"}
-            </button>
+        <div className="border-b border-slate-100 pb-2.5 sm:pb-3">
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-1.5 flex-wrap">
+              <h2 className="text-xs font-bold uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+                <span>⚙️</span>
+                <span>Parámetros</span>
+              </h2>
+              <span
+                className={`lg:hidden rounded-full px-2 py-0.5 text-[10px] font-bold ${STATUS_STYLES[ticket.status]}`}
+              >
+                {STATUS_LABELS[ticket.status]}
+              </span>
+            </div>
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                type="button"
+                onClick={() => setShowEditForm(!showEditForm)}
+                className="text-[11px] font-semibold text-blue-600 hover:underline"
+              >
+                {showEditForm ? "Cerrar edición" : "✏️ Editar"}
+              </button>
+              <button
+                type="button"
+                onClick={() => setMobileParamsOpen(!mobileParamsOpen)}
+                className="lg:hidden rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-[11px] font-bold text-slate-700 hover:bg-slate-100 transition"
+              >
+                {mobileParamsOpen ? "Ocultar ▲" : "Ver parámetros ▼"}
+              </button>
+            </div>
           </div>
-          <p className="text-[11px] text-slate-400 mt-0.5">
+          <p className="text-[11px] text-slate-400 mt-0.5 hidden sm:block">
             Estado, asignación y metadatos del caso
           </p>
         </div>
+
+        {/* Contenido de Parámetros (Colapsable en móvil para que no ocupe toda la pantalla) */}
+        <div
+          className={`${
+            mobileParamsOpen ? "flex" : "hidden"
+          } lg:flex flex-col gap-3 sm:gap-4`}
+        >
 
         {/* 1. ESTADO ACTUAL (CON SELECTOR RÁPIDO) */}
         <div className="rounded-xl border border-slate-100 bg-slate-50/80 p-3 shadow-xs">
@@ -419,6 +443,7 @@ export function TicketManager({
             </a>
           </div>
         ) : null}
+        </div>
       </aside>
 
       {/* ========================================================================= */}

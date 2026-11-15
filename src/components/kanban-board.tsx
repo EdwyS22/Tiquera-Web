@@ -90,6 +90,7 @@ export function KanbanBoard({
   initialTickets: KanbanTicket[];
 }) {
   const [tickets, setTickets] = useState<KanbanTicket[]>(initialTickets);
+  const [mobileColumn, setMobileColumn] = useState<TicketStatus | "all">("all");
   const [isPending, startTransition] = useTransition();
 
   const handleQuickStatusChange = async (
@@ -115,181 +116,230 @@ export function KanbanBoard({
   };
 
   return (
-    <div className="flex gap-4 overflow-x-auto pb-6 pt-1 items-start w-full snap-x xl:grid xl:grid-cols-5 xl:overflow-x-visible">
-      {STATUS_COLUMNS.map((col) => {
-        const columnTickets = tickets.filter((t) => t.status === col.status);
-
-        return (
-          <div
-            key={col.status}
-            className="flex min-w-[280px] sm:min-w-[310px] xl:min-w-0 shrink-0 xl:shrink snap-start flex-col rounded-2xl border border-slate-200/80 bg-slate-100/75 p-3 shadow-xs"
-          >
-            {/* Cabecera de la Columna (Estilo MeisterTask / Trello) */}
-            <div
-              className={`flex items-center justify-between rounded-xl border border-t-4 px-3 py-2.5 shadow-xs ${col.accentColor} ${col.headerBg}`}
+    <div className="flex flex-col gap-3 w-full">
+      {/* Selector de columnas para dispositivos móviles: permite alternar columna o ver todas sin que se desborde */}
+      <div className="flex xl:hidden items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none w-full">
+        <button
+          type="button"
+          onClick={() => setMobileColumn("all")}
+          className={`shrink-0 rounded-xl px-3 py-1.5 text-xs font-semibold transition ${
+            mobileColumn === "all"
+              ? "bg-slate-900 text-white shadow-xs"
+              : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-100"
+          }`}
+        >
+          Todas ({tickets.length})
+        </button>
+        {STATUS_COLUMNS.map((col) => {
+          const count = tickets.filter((t) => t.status === col.status).length;
+          const isSelected = mobileColumn === col.status;
+          return (
+            <button
+              key={col.status}
+              type="button"
+              onClick={() => setMobileColumn(col.status)}
+              className={`shrink-0 inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold transition border ${
+                isSelected
+                  ? `${col.badgeBg} border-slate-300 ring-2 ring-blue-500/30 font-bold`
+                  : "bg-white text-slate-600 border-slate-200 hover:bg-slate-100"
+              }`}
             >
-              <div className="flex items-center gap-2">
-                <span className="text-sm">{col.icon}</span>
-                <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider">
-                  {col.label}
-                </h3>
-              </div>
-              <span
-                className={`rounded-full px-2 py-0.5 text-xs font-bold ${col.badgeBg}`}
+              <span>{col.icon}</span>
+              <span>{col.label}</span>
+              <span className="opacity-70 text-[10px]">({count})</span>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Contenedor de columnas: vista deslizable en móvil o cuadrícula completa en pantallas grandes */}
+      <div
+        className={`flex gap-3 sm:gap-4 overflow-x-auto pb-4 pt-1 items-start w-full snap-x xl:grid xl:grid-cols-5 xl:overflow-x-visible ${
+          mobileColumn !== "all" ? "overflow-x-visible" : ""
+        }`}
+      >
+        {STATUS_COLUMNS.map((col) => {
+          const columnTickets = tickets.filter((t) => t.status === col.status);
+          const isHiddenOnMobile = mobileColumn !== "all" && mobileColumn !== col.status;
+
+          return (
+            <div
+              key={col.status}
+              className={`flex flex-col rounded-2xl border border-slate-200/80 bg-slate-100/75 p-2.5 sm:p-3 shadow-xs transition-all ${
+                isHiddenOnMobile ? "hidden xl:flex" : ""
+              } ${
+                mobileColumn === "all"
+                  ? "w-[84vw] max-w-[285px] sm:w-[310px] xl:w-auto xl:min-w-0 shrink-0 xl:shrink snap-start"
+                  : "w-full xl:w-auto xl:min-w-0 shrink-0 xl:shrink"
+              }`}
+            >
+              {/* Cabecera de la Columna (Estilo MeisterTask / Trello) */}
+              <div
+                className={`flex items-center justify-between rounded-xl border border-t-4 px-3 py-2 sm:py-2.5 shadow-xs ${col.accentColor} ${col.headerBg}`}
               >
-                {columnTickets.length}
-              </span>
-            </div>
-
-            {/* Lista de Tarjetas (Tickets) con limitador y scroll interno */}
-            <div className="kanban-column-scroll mt-3 flex flex-col gap-2.5 min-h-[420px] max-h-[620px] 2xl:max-h-[720px] overflow-y-auto pr-1.5 focus:outline-none">
-              {columnTickets.length === 0 ? (
-                <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-300/80 py-12 text-center">
-                  <span className="text-2xl opacity-40">{col.icon}</span>
-                  <p className="mt-1.5 text-xs font-medium text-slate-400">
-                    Sin tickets en {col.label}
-                  </p>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm">{col.icon}</span>
+                  <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider">
+                    {col.label}
+                  </h3>
                 </div>
-              ) : (
-                columnTickets.map((ticket) => {
-                  const open = isOpenStatus(ticket.status);
+                <span
+                  className={`rounded-full px-2 py-0.5 text-xs font-bold ${col.badgeBg}`}
+                >
+                  {columnTickets.length}
+                </span>
+              </div>
 
-                  return (
-                    <div
-                      key={ticket.id}
-                      className="group relative flex flex-col gap-2.5 rounded-xl border border-slate-200/90 bg-white p-3.5 shadow-xs transition hover:border-blue-400 hover:shadow-md"
-                    >
-                      {/* Cabecera de tarjeta: Código y SLA */}
-                      <div className="flex items-center justify-between gap-2 text-xs">
+              {/* Lista de Tarjetas (Tickets) con limitador y scroll interno */}
+              <div className="kanban-column-scroll mt-2.5 sm:mt-3 flex flex-col gap-2 sm:gap-2.5 min-h-[160px] sm:min-h-[380px] max-h-[calc(100vh-270px)] sm:max-h-[620px] 2xl:max-h-[720px] overflow-y-auto pr-1 sm:pr-1.5 focus:outline-none">
+                {columnTickets.length === 0 ? (
+                  <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-300/80 py-8 sm:py-12 text-center">
+                    <span className="text-2xl opacity-40">{col.icon}</span>
+                    <p className="mt-1.5 text-xs font-medium text-slate-400">
+                      Sin tickets en {col.label}
+                    </p>
+                  </div>
+                ) : (
+                  columnTickets.map((ticket) => {
+                    const open = isOpenStatus(ticket.status);
+
+                    return (
+                      <div
+                        key={ticket.id}
+                        className="group relative flex flex-col gap-2 sm:gap-2.5 rounded-xl border border-slate-200/90 bg-white p-3 sm:p-3.5 shadow-xs transition hover:border-blue-400 hover:shadow-md"
+                      >
+                        {/* Cabecera de tarjeta: Código y SLA */}
+                        <div className="flex items-center justify-between gap-2 text-xs">
+                          <Link
+                            href={`/panel/ticket/${ticket.id}`}
+                            className="font-mono font-bold text-blue-600 hover:underline"
+                          >
+                            #{ticket.code}
+                          </Link>
+                          <span className="text-[10px] sm:text-[11px] font-medium text-slate-500 shrink-0">
+                            {open
+                              ? `⏱ ${formatRemaining(new Date(ticket.dueAt))}`
+                              : ticket.status === "completed"
+                                ? "✓ Resuelto"
+                                : "⚠️ Expirado"}
+                          </span>
+                        </div>
+
+                        {/* Título del problema */}
                         <Link
                           href={`/panel/ticket/${ticket.id}`}
-                          className="font-mono font-bold text-blue-600 hover:underline"
+                          className="text-xs sm:text-sm font-semibold text-slate-800 line-clamp-2 hover:text-blue-600 transition break-words"
                         >
-                          #{ticket.code}
+                          {ticket.title}
                         </Link>
-                        <span className="text-[11px] font-medium text-slate-500">
-                          {open
-                            ? `⏱ ${formatRemaining(new Date(ticket.dueAt))}`
-                            : ticket.status === "completed"
-                              ? "✓ Resuelto"
-                              : "⚠️ Expirado"}
-                        </span>
-                      </div>
 
-                      {/* Título del problema */}
-                      <Link
-                        href={`/panel/ticket/${ticket.id}`}
-                        className="text-sm font-semibold text-slate-800 line-clamp-2 hover:text-blue-600 transition"
-                      >
-                        {ticket.title}
-                      </Link>
-
-                      {/* Badges de clasificación: Área, Prioridad, Categoría */}
-                      <div className="flex flex-wrap gap-1.5 text-[10px]">
-                        <span
-                          className={`inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 font-semibold ${AREA_STYLES[ticket.area]}`}
-                        >
-                          <span>{AREA_ICONS[ticket.area]}</span>
-                          <span>{AREA_LABELS[ticket.area]}</span>
-                        </span>
-
-                        <span
-                          className={`rounded-md px-1.5 py-0.5 font-semibold ${PRIORITY_STYLES[ticket.priority]}`}
-                        >
-                          {PRIORITY_LABELS[ticket.priority]}
-                        </span>
-
-                        <span className="rounded-md border border-slate-200 bg-slate-50 px-1.5 py-0.5 font-medium text-slate-600">
-                          {CATEGORY_LABELS[ticket.category]}
-                        </span>
-
-                        {ticket.product ? (
-                          <span className="rounded-md border border-blue-100 bg-blue-50/70 px-1.5 py-0.5 font-medium text-blue-800 truncate max-w-[130px]">
-                            📦 {ticket.product}
+                        {/* Badges de clasificación: Área, Prioridad, Categoría */}
+                        <div className="flex flex-wrap gap-1 sm:gap-1.5 text-[10px]">
+                          <span
+                            className={`inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 font-semibold ${AREA_STYLES[ticket.area]}`}
+                          >
+                            <span>{AREA_ICONS[ticket.area]}</span>
+                            <span>{AREA_LABELS[ticket.area]}</span>
                           </span>
-                        ) : null}
-                      </div>
 
-                      {/* Acciones rápidas de movimiento tipo Kanban para tickets abiertos */}
-                      {open ? (
-                        <div className="flex items-center gap-1 pt-1 border-t border-slate-100">
-                          <span className="text-[10px] text-slate-400 font-medium mr-auto">
-                            Mover:
+                          <span
+                            className={`rounded-md px-1.5 py-0.5 font-semibold ${PRIORITY_STYLES[ticket.priority]}`}
+                          >
+                            {PRIORITY_LABELS[ticket.priority]}
                           </span>
-                          {ticket.status !== "pending" ? (
-                            <button
-                              type="button"
-                              disabled={isPending}
-                              onClick={() =>
-                                handleQuickStatusChange(ticket.id, "pending")
-                              }
-                              title="Mover a Pendiente"
-                              className="rounded px-1.5 py-0.5 text-[10px] font-semibold bg-amber-50 text-amber-700 hover:bg-amber-100 transition"
-                            >
-                              ⏳ Pendiente
-                            </button>
-                          ) : null}
-                          {ticket.status !== "in_progress" ? (
-                            <button
-                              type="button"
-                              disabled={isPending}
-                              onClick={() =>
-                                handleQuickStatusChange(
-                                  ticket.id,
-                                  "in_progress",
-                                )
-                              }
-                              title="Mover a En Proceso"
-                              className="rounded px-1.5 py-0.5 text-[10px] font-semibold bg-sky-50 text-sky-700 hover:bg-sky-100 transition"
-                            >
-                              ⚡ Proceso
-                            </button>
-                          ) : null}
-                          {ticket.status !== "in_review" ? (
-                            <button
-                              type="button"
-                              disabled={isPending}
-                              onClick={() =>
-                                handleQuickStatusChange(ticket.id, "in_review")
-                              }
-                              title="Mover a En Revisión"
-                              className="rounded px-1.5 py-0.5 text-[10px] font-semibold bg-violet-50 text-violet-700 hover:bg-violet-100 transition"
-                            >
-                              🔍 Revisión
-                            </button>
+
+                          <span className="rounded-md border border-slate-200 bg-slate-50 px-1.5 py-0.5 font-medium text-slate-600">
+                            {CATEGORY_LABELS[ticket.category]}
+                          </span>
+
+                          {ticket.product ? (
+                            <span className="rounded-md border border-blue-100 bg-blue-50/70 px-1.5 py-0.5 font-medium text-blue-800 truncate max-w-[120px] sm:max-w-[130px]">
+                              📦 {ticket.product}
+                            </span>
                           ) : null}
                         </div>
-                      ) : null}
 
-                      {/* Footer de tarjeta: Asignado y Botón detalle */}
-                      <div className="flex items-center justify-between border-t border-slate-100 pt-2 text-xs text-slate-500">
-                        <span className="truncate max-w-[150px] text-[11px]">
-                          {ticket.assignedTo ? (
-                            <span className="font-medium text-slate-700">
-                              👤 {ticket.assignedTo.name}
+                        {/* Acciones rápidas de movimiento tipo Kanban para tickets abiertos */}
+                        {open ? (
+                          <div className="flex flex-wrap items-center gap-1 pt-1.5 border-t border-slate-100">
+                            <span className="text-[10px] text-slate-400 font-medium mr-auto">
+                              Mover:
                             </span>
-                          ) : (
-                            <span className="text-amber-600 font-medium">
-                              ⚠️ Sin asignar
-                            </span>
-                          )}
-                        </span>
+                            {ticket.status !== "pending" ? (
+                              <button
+                                type="button"
+                                disabled={isPending}
+                                onClick={() =>
+                                  handleQuickStatusChange(ticket.id, "pending")
+                                }
+                                title="Mover a Pendiente"
+                                className="rounded px-1.5 py-0.5 text-[10px] font-semibold bg-amber-50 text-amber-700 hover:bg-amber-100 transition"
+                              >
+                                ⏳ Pendiente
+                              </button>
+                            ) : null}
+                            {ticket.status !== "in_progress" ? (
+                              <button
+                                type="button"
+                                disabled={isPending}
+                                onClick={() =>
+                                  handleQuickStatusChange(
+                                    ticket.id,
+                                    "in_progress",
+                                  )
+                                }
+                                title="Mover a En Proceso"
+                                className="rounded px-1.5 py-0.5 text-[10px] font-semibold bg-sky-50 text-sky-700 hover:bg-sky-100 transition"
+                              >
+                                ⚡ Proceso
+                              </button>
+                            ) : null}
+                            {ticket.status !== "in_review" ? (
+                              <button
+                                type="button"
+                                disabled={isPending}
+                                onClick={() =>
+                                  handleQuickStatusChange(ticket.id, "in_review")
+                                }
+                                title="Mover a En Revisión"
+                                className="rounded px-1.5 py-0.5 text-[10px] font-semibold bg-violet-50 text-violet-700 hover:bg-violet-100 transition"
+                              >
+                                🔍 Revisión
+                              </button>
+                            ) : null}
+                          </div>
+                        ) : null}
 
-                        <Link
-                          href={`/panel/ticket/${ticket.id}`}
-                          className="rounded-md bg-slate-50 px-2 py-1 text-[11px] font-medium text-slate-600 hover:bg-slate-100 transition"
-                        >
-                          Ver &rarr;
-                        </Link>
+                        {/* Footer de tarjeta: Asignado y Botón detalle */}
+                        <div className="flex items-center justify-between border-t border-slate-100 pt-2 text-xs text-slate-500">
+                          <span className="truncate max-w-[130px] sm:max-w-[150px] text-[10px] sm:text-[11px]">
+                            {ticket.assignedTo ? (
+                              <span className="font-medium text-slate-700">
+                                👤 {ticket.assignedTo.name}
+                              </span>
+                            ) : (
+                              <span className="text-amber-600 font-medium">
+                                ⚠️ Sin asignar
+                              </span>
+                            )}
+                          </span>
+
+                          <Link
+                            href={`/panel/ticket/${ticket.id}`}
+                            className="rounded-md bg-slate-50 px-2 py-1 text-[10px] sm:text-[11px] font-semibold text-slate-700 hover:bg-slate-100 transition"
+                          >
+                            Ver &rarr;
+                          </Link>
+                        </div>
                       </div>
-                    </div>
-                  );
-                })
-              )}
+                    );
+                  })
+                )}
+              </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
   );
 }

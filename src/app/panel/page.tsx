@@ -256,12 +256,12 @@ export default async function PanelPage({
 
       {/* Vista de Columnas por Estado (Única Vista Permanente) */}
       <section className="flex flex-col gap-3">
-        <div className="flex items-center justify-between">
-          <h2 className="text-sm font-bold text-slate-700 uppercase tracking-wider">
-            Columnas por Estado
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+          <h2 className="text-xs sm:text-sm font-bold text-slate-700 uppercase tracking-wider">
+            Tablero de Tickets por Estado
           </h2>
-          <span className="text-xs text-slate-500">
-            {tickets.length} tickets en el tablero • Desplaza hacia abajo en cada columna para ver los demás tickets
+          <span className="text-[11px] sm:text-xs text-slate-500">
+            {tickets.length} tickets en total • Desplaza verticalmente en cada columna
           </span>
         </div>
 

@@ -131,7 +131,7 @@ export default async function PanelTicketPage({
           </span>
         </div>
 
-        <p className="mt-2 text-lg font-bold text-slate-800 sm:text-xl">
+        <p className="mt-2 text-base font-bold text-slate-800 sm:text-xl break-words">
           {ticket.title}
         </p>
       </header>
