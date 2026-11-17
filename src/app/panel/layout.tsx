@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { NotificationsBell } from "@/components/notifications-bell";
+import { PanelNav } from "@/components/panel-nav";
 import { PanelUserMenu } from "@/components/panel-user-menu";
 import { requireStaff } from "@/lib/dal";
 import { ROLE_LABELS } from "@/lib/tickets";
@@ -39,28 +40,7 @@ export default async function PanelLayout({
               </div>
             </Link>
 
-            <nav className="hidden md:flex items-center gap-1 text-sm">
-              <Link
-                href="/panel"
-                className="rounded-lg px-3 py-1.5 font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
-              >
-                Panel
-              </Link>
-              <Link
-                href="/panel/nuevo"
-                className="rounded-lg px-3 py-1.5 font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
-              >
-                Nuevo ticket
-              </Link>
-              {isSuperadmin ? (
-                <Link
-                  href="/panel/usuarios"
-                  className="rounded-lg px-3 py-1.5 font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
-                >
-                  Usuarios
-                </Link>
-              ) : null}
-            </nav>
+            <PanelNav isSuperadmin={isSuperadmin} />
           </div>
 
           {/* Acciones del Navbar: Notificaciones + Mini Menú Desplegable */}
@@ -72,6 +52,11 @@ export default async function PanelLayout({
               isSuperadmin={isSuperadmin}
             />
           </div>
+        </div>
+
+        {/* Barra de navegación móvil (visible en pantallas móviles < sm) */}
+        <div className="flex sm:hidden border-t border-slate-100 px-3 py-1.5 bg-slate-50/70">
+          <PanelNav isSuperadmin={isSuperadmin} mobile />
         </div>
       </header>
 
