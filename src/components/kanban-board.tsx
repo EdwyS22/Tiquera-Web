@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 
 import { setTicketStatus } from "@/app/actions/staff";
@@ -89,6 +90,7 @@ export function KanbanBoard({
 }: {
   initialTickets: KanbanTicket[];
 }) {
+  const router = useRouter();
   const [tickets, setTickets] = useState<KanbanTicket[]>(initialTickets);
   const [mobileColumn, setMobileColumn] = useState<TicketStatus | "all">("all");
   const [isPending, startTransition] = useTransition();
@@ -206,16 +208,21 @@ export function KanbanBoard({
                     return (
                       <div
                         key={ticket.id}
-                        className="group relative flex flex-col gap-2 sm:gap-2.5 rounded-xl border border-slate-200/90 bg-white p-3 sm:p-3.5 shadow-xs transition hover:border-blue-400 hover:shadow-md"
+                        role="button"
+                        tabIndex={0}
+                        onClick={() => router.push(`/panel/ticket/${ticket.id}`)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            router.push(`/panel/ticket/${ticket.id}`);
+                          }
+                        }}
+                        className="group relative flex flex-col gap-2 sm:gap-2.5 rounded-xl border border-slate-200/90 bg-white p-3 sm:p-3.5 shadow-xs transition hover:border-blue-500 hover:shadow-md cursor-pointer select-none focus:outline-none focus:ring-2 focus:ring-blue-500/20 active:scale-[0.995]"
                       >
                         {/* Cabecera de tarjeta: Código y SLA */}
                         <div className="flex items-center justify-between gap-2 text-xs">
-                          <Link
-                            href={`/panel/ticket/${ticket.id}`}
-                            className="font-mono font-bold text-blue-600 hover:underline"
-                          >
+                          <span className="font-mono font-bold text-blue-600 group-hover:underline">
                             #{ticket.code}
-                          </Link>
+                          </span>
                           <span className="text-[10px] sm:text-[11px] font-medium text-slate-500 shrink-0">
                             {open
                               ? `⏱ ${formatRemaining(new Date(ticket.dueAt))}`
@@ -226,12 +233,9 @@ export function KanbanBoard({
                         </div>
 
                         {/* Título del problema */}
-                        <Link
-                          href={`/panel/ticket/${ticket.id}`}
-                          className="text-xs sm:text-sm font-semibold text-slate-800 line-clamp-2 hover:text-blue-600 transition break-words"
-                        >
+                        <h4 className="text-xs sm:text-sm font-semibold text-slate-800 line-clamp-2 group-hover:text-blue-600 transition break-words leading-snug">
                           {ticket.title}
-                        </Link>
+                        </h4>
 
                         {/* Badges de clasificación: Área, Prioridad, Categoría */}
                         <div className="flex flex-wrap gap-1 sm:gap-1.5 text-[10px]">
@@ -261,7 +265,10 @@ export function KanbanBoard({
 
                         {/* Acciones rápidas de movimiento tipo Kanban para tickets abiertos */}
                         {open ? (
-                          <div className="flex flex-wrap items-center gap-1 pt-1.5 border-t border-slate-100">
+                          <div
+                            onClick={(e) => e.stopPropagation()}
+                            className="flex flex-wrap items-center gap-1 pt-1.5 border-t border-slate-100"
+                          >
                             <span className="text-[10px] text-slate-400 font-medium mr-auto">
                               Mover:
                             </span>
@@ -269,9 +276,10 @@ export function KanbanBoard({
                               <button
                                 type="button"
                                 disabled={isPending}
-                                onClick={() =>
-                                  handleQuickStatusChange(ticket.id, "pending")
-                                }
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleQuickStatusChange(ticket.id, "pending");
+                                }}
                                 title="Mover a Pendiente"
                                 className="rounded px-1.5 py-0.5 text-[10px] font-semibold bg-amber-50 text-amber-700 hover:bg-amber-100 transition"
                               >
@@ -282,12 +290,13 @@ export function KanbanBoard({
                               <button
                                 type="button"
                                 disabled={isPending}
-                                onClick={() =>
+                                onClick={(e) => {
+                                  e.stopPropagation();
                                   handleQuickStatusChange(
                                     ticket.id,
                                     "in_progress",
-                                  )
-                                }
+                                  );
+                                }}
                                 title="Mover a En Proceso"
                                 className="rounded px-1.5 py-0.5 text-[10px] font-semibold bg-sky-50 text-sky-700 hover:bg-sky-100 transition"
                               >
@@ -298,9 +307,10 @@ export function KanbanBoard({
                               <button
                                 type="button"
                                 disabled={isPending}
-                                onClick={() =>
-                                  handleQuickStatusChange(ticket.id, "in_review")
-                                }
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleQuickStatusChange(ticket.id, "in_review");
+                                }}
                                 title="Mover a En Revisión"
                                 className="rounded px-1.5 py-0.5 text-[10px] font-semibold bg-violet-50 text-violet-700 hover:bg-violet-100 transition"
                               >
@@ -324,12 +334,9 @@ export function KanbanBoard({
                             )}
                           </span>
 
-                          <Link
-                            href={`/panel/ticket/${ticket.id}`}
-                            className="rounded-md bg-slate-50 px-2 py-1 text-[10px] sm:text-[11px] font-semibold text-slate-700 hover:bg-slate-100 transition"
-                          >
+                          <span className="rounded-md bg-slate-50 px-2 py-1 text-[10px] sm:text-[11px] font-semibold text-slate-700 group-hover:bg-blue-600 group-hover:text-white transition">
                             Ver &rarr;
-                          </Link>
+                          </span>
                         </div>
                       </div>
                     );

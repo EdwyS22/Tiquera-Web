@@ -56,7 +56,7 @@ export function LoginForm() {
       </button>
 
       <p className="text-xs text-slate-500">
-        Acceso exclusivo del equipo tecnico de Tiquera.
+        Acceso exclusivo del equipo tecnico de Vionest.
       </p>
     </form>
   );
