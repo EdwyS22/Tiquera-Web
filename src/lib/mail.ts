@@ -179,10 +179,13 @@ async function send(
     }
   }
 
-  // 4. Mailtrap (fallback de sandbox)
+  // 4. Mailtrap (sandbox para pruebas y desarrollo)
   if (mailtrapEnabled) {
     try {
       await sendViaMailtrap(recipients, subject, html, attachments);
+      console.log(
+        `[mail] Correo simulado enviado con Mailtrap a ${recipients.join(", ")} | Asunto: "${subject}"`,
+      );
       return { delivered: true, channel: "mailtrap" };
     } catch (error) {
       lastError = error instanceof Error ? error.message : String(error);
@@ -309,8 +312,8 @@ export async function sendStaffNotificationEmail(
     `,
   );
 
-  // Intentar envío prioritario por Resend / canales de email configurados
-  if (resendEnabled || gmailEnabled) {
+  // Intentar envío prioritario por Resend / Gmail / Mailtrap
+  if (resendEnabled || gmailEnabled || mailtrapEnabled) {
     const res = await send(targetRecipients, input.subject, html, undefined, input.sender);
     if (res.delivered) {
       return res;
