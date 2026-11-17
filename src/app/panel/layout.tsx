@@ -24,14 +24,19 @@ export default async function PanelLayout({
             >
               <Image
                 src="/logo.png"
-                alt="Logo Tiquera Web"
+                alt="Logo Vionest Service"
                 width={38}
                 height={38}
                 className="h-9 w-9 object-contain"
                 priority
                 unoptimized
               />
-              <span className="font-bold tracking-tight">Tiquera Web</span>
+              <div className="flex flex-col">
+                <span className="font-bold tracking-tight leading-tight">Tiquera Web</span>
+                <span className="text-[10px] font-bold tracking-wider text-blue-600 uppercase">
+                  Vionest Service
+                </span>
+              </div>
             </Link>
 
             <nav className="hidden md:flex items-center gap-1 text-sm">

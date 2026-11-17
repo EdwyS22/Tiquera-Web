@@ -11,14 +11,19 @@ export function SiteHeader() {
         >
           <Image
             src="/logo.png"
-            alt="Logo Tiquera Web"
+            alt="Logo Vionest Service"
             width={38}
             height={38}
             className="h-9 w-9 object-contain"
             priority
             unoptimized
           />
-          <span>Tiquera Web</span>
+          <div className="flex flex-col">
+            <span className="leading-tight">Tiquera Web</span>
+            <span className="text-[10px] font-bold text-blue-600 uppercase tracking-wider">
+              Vionest Service
+            </span>
+          </div>
         </Link>
 
         <nav className="flex items-center gap-1 text-sm sm:gap-2">

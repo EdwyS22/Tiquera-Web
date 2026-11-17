@@ -281,9 +281,12 @@ export default async function PanelPage({
       </section>
 
       {/* Footer del Panel */}
-      <footer className="border-t border-slate-200/60 pt-4 text-center sm:text-left">
-        <p className="text-xs text-slate-400">
-          {staffList.length} especialistas registrados • Tiquera Web Internal System
+      <footer className="border-t border-slate-200/60 pt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs text-slate-400">
+        <p>
+          {staffList.length} especialistas registrados • Sistema exclusivo de Vionest Service
+        </p>
+        <p className="font-medium text-slate-500">
+          Desarrollado para Vionest Service &copy; {new Date().getFullYear()}
         </p>
       </footer>
     </div>

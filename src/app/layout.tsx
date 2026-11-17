@@ -16,9 +16,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Tiquera Web",
+  title: "Tiquera Web — Vionest Service",
   description:
-    "Reporta y resuelve problemas en sitios web y landing pages con seguimiento por SLA de 24 horas.",
+    "Sistema oficial de gestión de tickets y soporte al cliente para Vionest Service. Reporta y resuelve problemas con seguimiento por SLA de 24 horas.",
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },

@@ -416,16 +416,16 @@ function TicketDocument({ data }: { data: TicketPdfData }) {
   return (
     <Document
       title={`Reporte-${data.code}`}
-      author="Tiquera Web Enterprise"
+      author="Vionest Service — Tiquera Web"
       subject={`Informe Tecnico de Atencion - ${data.title}`}
     >
       <Page size="A4" style={styles.page}>
         {/* Membrete Oficial */}
         <View style={styles.headerContainer}>
           <View style={styles.logoBox}>
-            <Text style={styles.brandTitle}>TIQUERA WEB</Text>
+            <Text style={styles.brandTitle}>TIQUERA WEB • VIONEST SERVICE</Text>
             <Text style={styles.brandSubtitle}>
-              Sistema Integral de Gestión de Incidencias & Soporte
+              Sistema Oficial de Gestión de Incidencias & Soporte — Vionest Service
             </Text>
           </View>
           <View style={styles.headerMetaBox}>
@@ -628,7 +628,7 @@ function TicketDocument({ data }: { data: TicketPdfData }) {
             <Text style={styles.certTitle}>Certificación de Auditoría</Text>
             <Text style={styles.certDesc}>
               Este informe certifica la trazabilidad y registro formal de la
-              atención prestada según los estándares de servicio de Tiquera Web.
+              atención prestada según los estándares de servicio de Vionest Service.
             </Text>
           </View>
           <View style={styles.certStamp}>
@@ -640,7 +640,7 @@ function TicketDocument({ data }: { data: TicketPdfData }) {
         <View style={styles.footer} fixed>
           <View style={{ flexDirection: "column" }}>
             <Text style={[styles.footerText, { fontFamily: "Helvetica-Bold", color: "#334155" }]}>
-              © {new Date().getFullYear()} Tiquera Web. Todos los derechos reservados.
+              © {new Date().getFullYear()} Vionest Service • Tiquera Web. Todos los derechos reservados.
             </Text>
             <Text style={styles.footerText}>
               Documento Confidencial y Exclusivo • Control de SLA & Trazabilidad de Incidencias
