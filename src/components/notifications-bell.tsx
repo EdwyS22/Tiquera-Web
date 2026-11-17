@@ -107,6 +107,48 @@ function NotificationIcon({ type }: { type: string }) {
   );
 }
 
+const STORAGE_READ_IDS = "vionest_read_notifications_ids";
+const STORAGE_ALL_READ_AT = "vionest_all_read_timestamp";
+
+function getLocallyReadIds(): Set<string> {
+  if (typeof window === "undefined") return new Set();
+  try {
+    const raw = localStorage.getItem(STORAGE_READ_IDS);
+    return new Set(raw ? JSON.parse(raw) : []);
+  } catch {
+    return new Set();
+  }
+}
+
+function saveLocallyReadId(id: string) {
+  if (typeof window === "undefined") return;
+  try {
+    const ids = getLocallyReadIds();
+    ids.add(id);
+    localStorage.setItem(STORAGE_READ_IDS, JSON.stringify(Array.from(ids)));
+  } catch {
+    // ignore
+  }
+}
+
+function getAllReadTimestamp(): number {
+  if (typeof window === "undefined") return 0;
+  try {
+    return Number(localStorage.getItem(STORAGE_ALL_READ_AT) || 0);
+  } catch {
+    return 0;
+  }
+}
+
+function setAllReadTimestamp(timestamp: number) {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.setItem(STORAGE_ALL_READ_AT, timestamp.toString());
+  } catch {
+    // ignore
+  }
+}
+
 export function NotificationsBell() {
   const detailsRef = useRef<HTMLDetailsElement>(null);
   const [filter, setFilter] = useState<"all" | "unread">("all");
@@ -124,14 +166,35 @@ export function NotificationsBell() {
       const res = await fetch("/api/notifications/recent", { cache: "no-store" });
       if (!res.ok) return;
       const data = (await res.json()) as { count?: number; items?: Item[] };
-      setCount(data.count ?? 0);
-      setItems(data.items ?? []);
+      const rawItems = data.items ?? [];
+
+      const readIds = getLocallyReadIds();
+      const allReadAt = getAllReadTimestamp();
+
+      const resolvedItems = rawItems.map((item) => {
+        const itemCreated = new Date(item.createdAt).getTime();
+        const isLocallyRead =
+          readIds.has(item.id) || (allReadAt > 0 && itemCreated <= allReadAt);
+        if (isLocallyRead && !item.readAt) {
+          return {
+            ...item,
+            readAt: new Date(allReadAt || Date.now()).toISOString(),
+          };
+        }
+        return item;
+      });
+
+      const unreadCount = resolvedItems.filter((item) => !item.readAt).length;
+      setCount(unreadCount);
+      setItems(resolvedItems);
     } catch {
       // reintenta en el proximo ciclo
     }
   };
 
   const handleMarkOne = async (id: string) => {
+    saveLocallyReadId(id);
+
     // Optimistic UI update: marca de inmediato en pantalla
     setItems((prev) =>
       prev.map((it) =>
@@ -157,11 +220,14 @@ export function NotificationsBell() {
   };
 
   const handleMarkAll = async () => {
-    // Optimistic UI update: marca todas como leídas de inmediato
-    const nowIso = new Date().toISOString();
-    setItems((prev) =>
-      prev.map((it) => ({ ...it, readAt: it.readAt ?? nowIso })),
-    );
+    const now = Date.now();
+    const nowIso = new Date(now).toISOString();
+    setAllReadTimestamp(now);
+
+    setItems((prev) => {
+      prev.forEach((it) => saveLocallyReadId(it.id));
+      return prev.map((it) => ({ ...it, readAt: it.readAt ?? nowIso }));
+    });
     setCount(0);
 
     try {
