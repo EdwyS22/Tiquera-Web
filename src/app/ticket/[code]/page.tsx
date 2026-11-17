@@ -40,7 +40,10 @@ export default async function TicketPage({
 }) {
   const { code } = await params;
 
-  await expireOverdueTickets();
+  // Verificación en segundo plano sin ralentizar la respuesta al cliente
+  expireOverdueTickets().catch((err) => {
+    console.warn("[ticket] Aviso al expirar tickets automáticamente:", err);
+  });
 
   const ticket = await prisma.ticket.findUnique({
     where: { code },

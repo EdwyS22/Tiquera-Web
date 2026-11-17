@@ -131,6 +131,55 @@ export function NotificationsBell() {
     }
   };
 
+  const handleMarkOne = async (id: string) => {
+    // Optimistic UI update: marca de inmediato en pantalla
+    setItems((prev) =>
+      prev.map((it) =>
+        it.id === id ? { ...it, readAt: new Date().toISOString() } : it,
+      ),
+    );
+    setCount((prev) => Math.max(0, prev - 1));
+
+    try {
+      await markNotificationRead(id);
+    } catch {
+      // Fallback a API endpoint si falla la Server Action
+      try {
+        await fetch("/api/notifications/recent", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ notificationId: id }),
+        });
+      } catch {
+        // Silencioso
+      }
+    }
+  };
+
+  const handleMarkAll = async () => {
+    // Optimistic UI update: marca todas como leídas de inmediato
+    const nowIso = new Date().toISOString();
+    setItems((prev) =>
+      prev.map((it) => ({ ...it, readAt: it.readAt ?? nowIso })),
+    );
+    setCount(0);
+
+    try {
+      await markAllNotificationsRead();
+    } catch {
+      // Fallback a API endpoint si falla la Server Action
+      try {
+        await fetch("/api/notifications/recent", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ markAll: true }),
+        });
+      } catch {
+        // Silencioso
+      }
+    }
+  };
+
   useEffect(() => {
     const initial = setTimeout(load, 0);
     const interval = setInterval(load, 60_000);
@@ -225,10 +274,7 @@ export function NotificationsBell() {
               {count > 0 ? (
                 <button
                   type="button"
-                  onClick={async () => {
-                    await markAllNotificationsRead();
-                    await load();
-                  }}
+                  onClick={handleMarkAll}
                   className="inline-flex items-center gap-1 text-xs font-semibold text-blue-600 hover:text-blue-700 transition"
                 >
                   <svg
@@ -404,10 +450,7 @@ export function NotificationsBell() {
                         {isUnread ? (
                           <button
                             type="button"
-                            onClick={async () => {
-                              await markNotificationRead(item.id);
-                              await load();
-                            }}
+                            onClick={() => handleMarkOne(item.id)}
                             className="inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-slate-500 hover:bg-slate-100 hover:text-slate-800 font-medium transition text-[11px]"
                           >
                             <svg

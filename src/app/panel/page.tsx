@@ -43,11 +43,10 @@ export default async function PanelPage({
   const isSuperadmin = staff.role === "superadmin";
   const { status, assigned, area, q } = await searchParams;
 
-  try {
-    await expireOverdueTickets();
-  } catch (err) {
+  // Ejecución en segundo plano sin congelar el renderizado del panel
+  expireOverdueTickets().catch((err) => {
     console.warn("[panel] Aviso al expirar tickets automáticamente:", err);
-  }
+  });
 
   const statusFilter =
     status && status !== "all" && VALID_STATUSES.includes(status as TicketStatus)
@@ -90,7 +89,20 @@ export default async function PanelPage({
         { priority: "desc" },
         { createdAt: "desc" },
       ],
-      include: { assignedTo: { select: { id: true, name: true } } },
+      select: {
+        id: true,
+        code: true,
+        title: true,
+        area: true,
+        product: true,
+        category: true,
+        priority: true,
+        status: true,
+        dueAt: true,
+        createdAt: true,
+        reporterEmail: true,
+        assignedTo: { select: { id: true, name: true } },
+      },
       take: PAGE_SIZE,
     }),
     prisma.staffUser.findMany({

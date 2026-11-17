@@ -79,9 +79,14 @@ function NotificationIcon({ type }: { type: string }) {
 
 export default async function NotificationsPage() {
   const staff = await requireStaff();
+  const isSuperadmin = staff.role === "superadmin";
 
   const notifications = await prisma.notification.findMany({
-    where: { recipientId: staff.id },
+    where: isSuperadmin
+      ? {}
+      : {
+          OR: [{ recipientId: staff.id }, { recipientId: null }],
+        },
     orderBy: { createdAt: "desc" },
     take: 100,
     include: {
@@ -239,9 +244,12 @@ export default async function NotificationsPage() {
                   ) : null}
 
                   {isUnread ? (
-                    <form
-                      action={markNotificationRead.bind(null, notification.id)}
-                    >
+                    <form action={markNotificationRead}>
+                      <input
+                        type="hidden"
+                        name="notificationId"
+                        value={notification.id}
+                      />
                       <button
                         type="submit"
                         className="inline-flex items-center gap-1 rounded-lg bg-blue-600 px-3 py-1.5 text-xs font-semibold text-white shadow-xs transition hover:bg-blue-700 active:bg-blue-800"

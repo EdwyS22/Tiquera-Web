@@ -39,6 +39,4 @@ const globalForPrisma = globalThis as unknown as {
 
 export const prisma = globalForPrisma.prisma_v3 ?? new PrismaClient({ adapter });
 
-if (process.env.NODE_ENV !== "production") {
-  globalForPrisma.prisma_v3 = prisma;
-}
+globalForPrisma.prisma_v3 = prisma;

@@ -477,26 +477,62 @@ export async function messageTicketClient(
 }
 
 export async function markNotificationRead(
-  notificationId: string,
+  notificationId: string | FormData,
 ): Promise<void> {
-  const staff = await requireStaff();
+  try {
+    const staff = await requireStaff();
+    const id =
+      typeof notificationId === "string"
+        ? notificationId
+        : (notificationId.get("notificationId") as string) ||
+          (notificationId.get("id") as string);
 
-  await prisma.notification.updateMany({
-    where: { id: notificationId, recipientId: staff.id, readAt: null },
-    data: { readAt: new Date() },
-  });
+    if (!id) {
+      return;
+    }
 
-  revalidatePath("/panel/notificaciones");
+    const isSuperadmin = staff.role === "superadmin";
+
+    await prisma.notification.updateMany({
+      where: {
+        id,
+        ...(isSuperadmin
+          ? {}
+          : {
+              OR: [{ recipientId: staff.id }, { recipientId: null }],
+            }),
+        readAt: null,
+      },
+      data: { readAt: new Date() },
+    });
+
+    revalidatePath("/panel/notificaciones");
+    revalidatePath("/panel");
+  } catch (err) {
+    console.error("[notifications] Error al marcar notificación como leída:", err);
+  }
 }
 
 export async function markAllNotificationsRead(): Promise<void> {
-  const staff = await requireStaff();
+  try {
+    const staff = await requireStaff();
+    const isSuperadmin = staff.role === "superadmin";
 
-  await prisma.notification.updateMany({
-    where: { recipientId: staff.id, readAt: null },
-    data: { readAt: new Date() },
-  });
+    await prisma.notification.updateMany({
+      where: {
+        ...(isSuperadmin
+          ? {}
+          : {
+              OR: [{ recipientId: staff.id }, { recipientId: null }],
+            }),
+        readAt: null,
+      },
+      data: { readAt: new Date() },
+    });
 
-  revalidatePath("/panel/notificaciones");
-  revalidatePath("/panel");
+    revalidatePath("/panel/notificaciones");
+    revalidatePath("/panel");
+  } catch (err) {
+    console.error("[notifications] Error al marcar todas las notificaciones como leídas:", err);
+  }
 }

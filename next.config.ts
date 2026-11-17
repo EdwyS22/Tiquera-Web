@@ -3,6 +3,8 @@ import path from "node:path";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  compress: true,
+  poweredByHeader: false,
   images: {
     unoptimized: true,
   },
