@@ -48,8 +48,14 @@ export async function setTicketStatus(
     return { message: "Ticket no encontrado." };
   }
 
-  if (staff.role !== "superadmin" && ticket.area !== staff.area) {
-    return { message: "No tienes permiso para gestionar tickets de otra área." };
+  const canManage =
+    staff.role === "superadmin" ||
+    staff.role === "admin" ||
+    ticket.assignedToId === staff.id ||
+    ticket.area === staff.area;
+
+  if (!canManage) {
+    return { message: "No tienes permiso para gestionar tickets de otra área salvo que seas administrador o estés asignado." };
   }
 
   if (ticket.status === parsed.data.status) {
@@ -113,8 +119,14 @@ export async function assignTicket(
     return { message: "Ticket no encontrado." };
   }
 
-  if (staff.role !== "superadmin" && ticket.area !== staff.area) {
-    return { message: "No tienes permiso para reasignar tickets de otra área." };
+  const canManage =
+    staff.role === "superadmin" ||
+    staff.role === "admin" ||
+    ticket.assignedToId === staff.id ||
+    ticket.area === staff.area;
+
+  if (!canManage) {
+    return { message: "No tienes permiso para reasignar este ticket." };
   }
 
   const newAssigneeId = parsed.data.assignedToId ?? null;
@@ -198,15 +210,11 @@ export async function addTicketNote(
 
   const ticket = await prisma.ticket.findUnique({
     where: { id: parsed.data.ticketId },
-    select: { id: true, area: true },
+    select: { id: true, area: true, assignedToId: true },
   });
 
   if (!ticket) {
     return { message: "Ticket no encontrado." };
-  }
-
-  if (staff.role !== "superadmin" && ticket.area !== staff.area) {
-    return { message: "No tienes permiso para agregar notas en tickets de otra área." };
   }
 
   await prisma.ticketNote.create({
@@ -270,12 +278,19 @@ export async function updateTicket(
     return { message: "Ticket no encontrado." };
   }
 
-  if (staff.role !== "superadmin" && ticket.area !== staff.area) {
+  const canManage =
+    staff.role === "superadmin" ||
+    staff.role === "admin" ||
+    ticket.assignedTo?.id === staff.id ||
+    ticket.area === staff.area;
+
+  if (!canManage) {
     return { message: "No tienes permiso para editar tickets de otra área." };
   }
 
-  if (staff.role !== "superadmin" && parsed.data.area !== staff.area) {
-    return { message: "Solo los superadmins pueden cambiar el área de un ticket." };
+  const isSuperOrAdmin = staff.role === "superadmin" || staff.role === "admin";
+  if (!isSuperOrAdmin && parsed.data.area !== staff.area) {
+    return { message: "Solo los administradores pueden cambiar el área de un ticket." };
   }
 
   const changes: Array<{ field: string; label: string; oldValue: string; newValue: string }> = [];
@@ -395,14 +410,20 @@ export async function resolveTicket(
 
   const ticket = await prisma.ticket.findUnique({
     where: { id: parsed.data.ticketId },
-    select: { id: true, status: true, code: true, area: true },
+    select: { id: true, status: true, code: true, area: true, assignedToId: true },
   });
 
   if (!ticket) {
     return { message: "Ticket no encontrado." };
   }
 
-  if (staff.role !== "superadmin" && ticket.area !== staff.area) {
+  const canManage =
+    staff.role === "superadmin" ||
+    staff.role === "admin" ||
+    ticket.assignedToId === staff.id ||
+    ticket.area === staff.area;
+
+  if (!canManage) {
     return { message: "No tienes permiso para cerrar tickets de otra área." };
   }
 
@@ -440,14 +461,20 @@ export async function messageTicketClient(
 
   const ticket = await prisma.ticket.findUnique({
     where: { id: parsed.data.ticketId },
-    select: { id: true, area: true },
+    select: { id: true, area: true, assignedToId: true },
   });
 
   if (!ticket) {
     return { message: "Ticket no encontrado." };
   }
 
-  if (staff.role !== "superadmin" && ticket.area !== staff.area) {
+  const canManage =
+    staff.role === "superadmin" ||
+    staff.role === "admin" ||
+    ticket.assignedToId === staff.id ||
+    ticket.area === staff.area;
+
+  if (!canManage) {
     return { message: "No tienes permiso para responder en tickets de otra área." };
   }
 

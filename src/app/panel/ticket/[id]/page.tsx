@@ -68,11 +68,6 @@ export default async function PanelTicketPage({
     notFound();
   }
 
-  // Restricción por área: solo superadmin puede ver tickets de otras áreas
-  if (!isSuperadmin && ticket.area !== staff.area) {
-    notFound();
-  }
-
   const isOpen = isOpenStatus(ticket.status);
 
   return (

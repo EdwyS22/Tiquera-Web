@@ -41,6 +41,7 @@ export default async function PanelPage({
 }) {
   const staff = await requireStaff();
   const isSuperadmin = staff.role === "superadmin";
+  const isAdmin = isSuperadmin || staff.role === "admin";
   const { status, assigned, area, q } = await searchParams;
 
   // Ejecución en segundo plano sin congelar el renderizado del panel
@@ -53,12 +54,14 @@ export default async function PanelPage({
       ? (status as TicketStatus)
       : undefined;
 
-  // Solo los superadmin pueden ver todos los tickets o filtrar por cualquier área; los demás trabajadores solo ven los de su área
-  const areaFilter = isSuperadmin
+  // Los administradores y superadmins pueden ver todos los tickets o filtrar por cualquier área
+  const areaFilter = isAdmin
     ? area && area !== "all" && AREAS.includes(area as TicketArea)
       ? (area as TicketArea)
       : undefined
-    : staff.area;
+    : assigned === "mine"
+      ? undefined
+      : staff.area;
 
   const where = {
     ...(statusFilter ? { status: statusFilter } : {}),
@@ -80,7 +83,7 @@ export default async function PanelPage({
   const [statusCounts, tickets, staffList] = await Promise.all([
     prisma.ticket.groupBy({
       by: ["status"],
-      where: isSuperadmin ? {} : { area: staff.area },
+      where: isAdmin ? {} : { area: staff.area },
       _count: { _all: true },
     }),
     prisma.ticket.findMany({
