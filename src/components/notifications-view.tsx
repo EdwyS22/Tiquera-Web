@@ -65,7 +65,7 @@ const dateFormatter = new Intl.DateTimeFormat("es-ES", {
 function NotificationIcon({ type }: { type: string }) {
   if (type === "ticket_closed") {
     return (
-      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-emerald-600 ring-4 ring-emerald-50">
+      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-emerald-600 ring-4 ring-emerald-50 dark:bg-emerald-950/70 dark:text-emerald-400 dark:ring-emerald-950/30">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -86,7 +86,7 @@ function NotificationIcon({ type }: { type: string }) {
 
   if (type === "ticket_assigned") {
     return (
-      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-100 text-amber-700 ring-4 ring-amber-50">
+      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-100 text-amber-700 ring-4 ring-amber-50 dark:bg-amber-950/70 dark:text-amber-400 dark:ring-amber-950/30">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -106,7 +106,7 @@ function NotificationIcon({ type }: { type: string }) {
   }
 
   return (
-    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-100 text-blue-600 ring-4 ring-blue-50">
+    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-100 text-blue-600 ring-4 ring-blue-50 dark:bg-blue-950/70 dark:text-blue-400 dark:ring-blue-950/30">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
@@ -211,21 +211,21 @@ export function NotificationsView({
       <Link
         href="/panel"
         aria-label="Volver al panel"
-        className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-xs transition hover:bg-slate-50 hover:text-slate-900 active:bg-slate-100"
+        className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-xs transition hover:bg-slate-50 hover:text-slate-900 active:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
       >
         <span className="text-base font-bold leading-none">&larr;</span>
       </Link>
 
       {/* Encabezado */}
-      <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-slate-200/80">
+      <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-slate-200/80 dark:border-slate-800">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900">
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
             Centro de Notificaciones
           </h1>
-          <p className="mt-1 text-xs sm:text-sm text-slate-500">
+          <p className="mt-1 text-xs sm:text-sm text-slate-500 dark:text-slate-400">
             {unreadCount > 0 ? (
-              <span className="inline-flex items-center gap-1.5 font-medium text-blue-600">
-                <span className="h-2 w-2 rounded-full bg-blue-600" />
+              <span className="inline-flex items-center gap-1.5 font-medium text-blue-600 dark:text-blue-400">
+                <span className="h-2 w-2 rounded-full bg-blue-600 dark:bg-blue-500" />
                 Tienes {unreadCount} notificación{unreadCount === 1 ? "" : "es"} sin leer
               </span>
             ) : (
@@ -238,7 +238,7 @@ export function NotificationsView({
           <button
             type="button"
             onClick={handleMarkAll}
-            className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-3.5 py-2 text-xs sm:text-sm font-semibold text-slate-700 shadow-xs transition hover:bg-slate-50 active:bg-slate-100"
+            className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-3.5 py-2 text-xs sm:text-sm font-semibold text-slate-700 shadow-xs transition hover:bg-slate-50 active:bg-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -246,7 +246,7 @@ export function NotificationsView({
               viewBox="0 0 24 24"
               strokeWidth={2}
               stroke="currentColor"
-              className="h-4 w-4 text-emerald-600"
+              className="h-4 w-4 text-emerald-600 dark:text-emerald-400"
             >
               <path
                 strokeLinecap="round"
@@ -261,8 +261,8 @@ export function NotificationsView({
 
       {/* Lista de Notificaciones */}
       {items.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-12 text-center">
-          <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-400">
+        <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-12 text-center dark:border-slate-800 dark:bg-slate-900">
+          <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-400 dark:bg-slate-800 dark:text-slate-500">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -278,10 +278,10 @@ export function NotificationsView({
               />
             </svg>
           </div>
-          <p className="text-base font-semibold text-slate-800">
+          <p className="text-base font-semibold text-slate-800 dark:text-slate-100">
             Sin notificaciones pendientes
           </p>
-          <p className="mt-1 text-xs sm:text-sm text-slate-500">
+          <p className="mt-1 text-xs sm:text-sm text-slate-500 dark:text-slate-400">
             Aquí aparecerán las actualizaciones y asignaciones de tus casos.
           </p>
         </div>
@@ -295,8 +295,8 @@ export function NotificationsView({
                 key={notification.id}
                 className={`relative flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-xl border p-4 sm:p-5 transition shadow-xs ${
                   isUnread
-                    ? "border-blue-200 bg-gradient-to-r from-blue-50/40 to-white"
-                    : "border-slate-200 bg-white opacity-85 hover:opacity-100"
+                    ? "border-blue-200 bg-gradient-to-r from-blue-50/40 to-white dark:border-blue-900/60 dark:bg-gradient-to-r dark:from-blue-950/30 dark:to-slate-900"
+                    : "border-slate-200 bg-white opacity-85 hover:opacity-100 dark:border-slate-800 dark:bg-slate-900"
                 }`}
               >
                 {/* Lado izquierdo: Icono y Contenido */}
@@ -308,15 +308,15 @@ export function NotificationsView({
                       <p
                         className={`text-sm ${
                           isUnread
-                            ? "font-bold text-slate-900"
-                            : "font-semibold text-slate-800"
+                            ? "font-bold text-slate-900 dark:text-white"
+                            : "font-semibold text-slate-800 dark:text-slate-200"
                         }`}
                       >
                         {notification.title}
                       </p>
 
                       {isUnread ? (
-                        <span className="rounded-full bg-blue-100 px-2 py-0.5 text-[10px] font-bold text-blue-700">
+                        <span className="rounded-full bg-blue-100 px-2 py-0.5 text-[10px] font-bold text-blue-700 dark:bg-blue-950/70 dark:text-blue-300">
                           Nueva
                         </span>
                       ) : null}
@@ -324,29 +324,29 @@ export function NotificationsView({
                       {notification.ticket ? (
                         <Link
                           href={`/panel/ticket/${notification.ticket.id}`}
-                          className="inline-flex items-center rounded-md bg-slate-100 px-2 py-0.5 text-xs font-semibold text-blue-600 hover:bg-blue-100 transition"
+                          className="inline-flex items-center rounded-md bg-slate-100 px-2 py-0.5 text-xs font-semibold text-blue-600 hover:bg-blue-100 transition dark:bg-slate-800 dark:text-blue-400 dark:hover:bg-slate-700"
                         >
                           #{notification.ticket.code}
                         </Link>
                       ) : null}
                     </div>
 
-                    <p className="mt-1 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    <p className="mt-1 text-xs sm:text-sm text-slate-600 leading-relaxed dark:text-slate-300">
                       {notification.body}
                     </p>
 
-                    <p className="mt-2 text-[11px] text-slate-400 font-medium">
+                    <p className="mt-2 text-[11px] text-slate-400 font-medium dark:text-slate-500">
                       {dateFormatter.format(new Date(notification.createdAt))}
                     </p>
                   </div>
                 </div>
 
                 {/* Lado derecho: Acciones */}
-                <div className="flex items-center gap-2 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100">
+                <div className="flex items-center gap-2 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100 dark:border-slate-800">
                   {notification.ticket ? (
                     <Link
                       href={`/panel/ticket/${notification.ticket.id}`}
-                      className="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-xs transition hover:bg-slate-50 hover:text-blue-600"
+                      className="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-xs transition hover:bg-slate-50 hover:text-blue-600 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 dark:hover:text-blue-400"
                     >
                       Ver ticket
                     </Link>
@@ -361,7 +361,7 @@ export function NotificationsView({
                       Marcar leída
                     </button>
                   ) : (
-                    <span className="text-xs text-slate-400 font-medium px-2 py-1">
+                    <span className="text-xs text-slate-400 font-medium px-2 py-1 dark:text-slate-500">
                       Leída
                     </span>
                   )}

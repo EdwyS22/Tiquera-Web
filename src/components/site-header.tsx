@@ -1,13 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { ThemeToggle } from "@/components/theme-toggle";
+
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-40 border-b border-slate-200/70 bg-white/80 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-slate-200/70 bg-white/80 dark:border-slate-800/80 dark:bg-slate-900/80 backdrop-blur transition-colors duration-150">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
         <Link
           href="/panel"
-          className="flex items-center gap-2.5 font-bold tracking-tight text-slate-900"
+          className="flex items-center gap-2.5 font-bold tracking-tight text-slate-900 dark:text-white"
         >
           <Image
             src="/logo.png"
@@ -19,17 +21,18 @@ export function SiteHeader() {
             unoptimized
           />
           <div className="flex flex-col">
-            <span className="leading-tight">Tiquera Web</span>
-            <span className="text-[10px] font-bold text-blue-600 uppercase tracking-wider">
+            <span className="leading-tight text-slate-900 dark:text-white">Tiquera Web</span>
+            <span className="text-[10px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">
               Vionest Service
             </span>
           </div>
         </Link>
 
-        <nav className="flex items-center gap-1 text-sm sm:gap-2">
+        <nav className="flex items-center gap-2 text-sm sm:gap-3">
+          <ThemeToggle />
           <Link
             href="/panel"
-            className="rounded-lg px-3 py-2 font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
+            className="rounded-lg px-3 py-2 font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
           >
             Panel
           </Link>

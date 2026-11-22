@@ -48,40 +48,40 @@ const STATUS_COLUMNS: Array<{
     label: "Pendiente",
     icon: "⏳",
     accentColor: "border-t-amber-500",
-    headerBg: "bg-amber-500/10 text-amber-900 border-amber-200",
-    badgeBg: "bg-amber-100 text-amber-800",
+    headerBg: "bg-amber-500/10 text-amber-900 border-amber-200 dark:bg-amber-950/40 dark:text-amber-200 dark:border-amber-900/60",
+    badgeBg: "bg-amber-100 text-amber-800 dark:bg-amber-900/60 dark:text-amber-200",
   },
   {
     status: "in_progress",
     label: "En Proceso",
     icon: "⚡",
     accentColor: "border-t-sky-500",
-    headerBg: "bg-sky-500/10 text-sky-900 border-sky-200",
-    badgeBg: "bg-sky-100 text-sky-800",
+    headerBg: "bg-sky-500/10 text-sky-900 border-sky-200 dark:bg-sky-950/40 dark:text-sky-200 dark:border-sky-900/60",
+    badgeBg: "bg-sky-100 text-sky-800 dark:bg-sky-900/60 dark:text-sky-200",
   },
   {
     status: "in_review",
     label: "En Revisión",
     icon: "🔍",
     accentColor: "border-t-violet-500",
-    headerBg: "bg-violet-500/10 text-violet-900 border-violet-200",
-    badgeBg: "bg-violet-100 text-violet-800",
+    headerBg: "bg-violet-500/10 text-violet-900 border-violet-200 dark:bg-violet-950/40 dark:text-violet-200 dark:border-violet-900/60",
+    badgeBg: "bg-violet-100 text-violet-800 dark:bg-violet-900/60 dark:text-violet-200",
   },
   {
     status: "completed",
     label: "Cumplido",
     icon: "✅",
     accentColor: "border-t-emerald-500",
-    headerBg: "bg-emerald-500/10 text-emerald-900 border-emerald-200",
-    badgeBg: "bg-emerald-100 text-emerald-800",
+    headerBg: "bg-emerald-500/10 text-emerald-900 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-200 dark:border-emerald-900/60",
+    badgeBg: "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/60 dark:text-emerald-200",
   },
   {
     status: "expired",
     label: "Expirado / SLA",
     icon: "⚠️",
     accentColor: "border-t-slate-500",
-    headerBg: "bg-slate-500/10 text-slate-800 border-slate-200",
-    badgeBg: "bg-slate-200 text-slate-700",
+    headerBg: "bg-slate-500/10 text-slate-800 border-slate-200 dark:bg-slate-800/40 dark:text-slate-200 dark:border-slate-700/60",
+    badgeBg: "bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300",
   },
 ];
 
@@ -167,7 +167,7 @@ export function KanbanBoard({
           return (
             <div
               key={col.status}
-              className={`flex flex-col rounded-2xl border border-slate-200/80 bg-slate-100/75 p-2.5 sm:p-3 shadow-xs transition-all ${
+              className={`flex flex-col rounded-2xl border border-slate-200/80 bg-slate-100/75 dark:border-slate-800 dark:bg-slate-900/60 p-2.5 sm:p-3 shadow-xs transition-all ${
                 isHiddenOnMobile ? "hidden xl:flex" : ""
               } ${
                 mobileColumn === "all"
@@ -195,9 +195,9 @@ export function KanbanBoard({
               {/* Lista de Tarjetas (Tickets) con limitador y scroll interno */}
               <div className="kanban-column-scroll mt-2.5 sm:mt-3 flex flex-col gap-2 sm:gap-2.5 min-h-[160px] sm:min-h-[380px] max-h-[calc(100vh-270px)] sm:max-h-[620px] 2xl:max-h-[720px] overflow-y-auto pr-1 sm:pr-1.5 focus:outline-none">
                 {columnTickets.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-300/80 py-8 sm:py-12 text-center">
+                  <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-300/80 dark:border-slate-800 py-8 sm:py-12 text-center">
                     <span className="text-2xl opacity-40">{col.icon}</span>
-                    <p className="mt-1.5 text-xs font-medium text-slate-400">
+                    <p className="mt-1.5 text-xs font-medium text-slate-400 dark:text-slate-500">
                       Sin tickets en {col.label}
                     </p>
                   </div>
@@ -216,14 +216,14 @@ export function KanbanBoard({
                             router.push(`/panel/ticket/${ticket.id}`);
                           }
                         }}
-                        className="group relative flex flex-col gap-2 sm:gap-2.5 rounded-xl border border-slate-200/90 bg-white p-3 sm:p-3.5 shadow-xs transition hover:border-blue-500 hover:shadow-md cursor-pointer select-none focus:outline-none focus:ring-2 focus:ring-blue-500/20 active:scale-[0.995]"
+                        className="group relative flex flex-col gap-2 sm:gap-2.5 rounded-xl border border-slate-200/90 bg-white dark:border-slate-800 dark:bg-slate-900 p-3 sm:p-3.5 shadow-xs transition hover:border-blue-500 dark:hover:border-blue-400 hover:shadow-md cursor-pointer select-none focus:outline-none focus:ring-2 focus:ring-blue-500/20 active:scale-[0.995]"
                       >
                         {/* Cabecera de tarjeta: Código y SLA */}
                         <div className="flex items-center justify-between gap-2 text-xs">
-                          <span className="font-mono font-bold text-blue-600 group-hover:underline">
+                          <span className="font-mono font-bold text-blue-600 dark:text-blue-400 group-hover:underline">
                             #{ticket.code}
                           </span>
-                          <span className="text-[10px] sm:text-[11px] font-medium text-slate-500 shrink-0">
+                          <span className="text-[10px] sm:text-[11px] font-medium text-slate-500 dark:text-slate-400 shrink-0">
                             {open
                               ? `⏱ ${formatRemaining(new Date(ticket.dueAt))}`
                               : ticket.status === "completed"
@@ -233,7 +233,7 @@ export function KanbanBoard({
                         </div>
 
                         {/* Título del problema */}
-                        <h4 className="text-xs sm:text-sm font-semibold text-slate-800 line-clamp-2 group-hover:text-blue-600 transition break-words leading-snug">
+                        <h4 className="text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-100 line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition break-words leading-snug">
                           {ticket.title}
                         </h4>
 
@@ -252,12 +252,12 @@ export function KanbanBoard({
                             {PRIORITY_LABELS[ticket.priority]}
                           </span>
 
-                          <span className="rounded-md border border-slate-200 bg-slate-50 px-1.5 py-0.5 font-medium text-slate-600">
+                          <span className="rounded-md border border-slate-200 bg-slate-50 text-slate-600 dark:border-slate-800 dark:bg-slate-800 dark:text-slate-300 px-1.5 py-0.5 font-medium">
                             {CATEGORY_LABELS[ticket.category]}
                           </span>
 
                           {ticket.product ? (
-                            <span className="rounded-md border border-blue-100 bg-blue-50/70 px-1.5 py-0.5 font-medium text-blue-800 truncate max-w-[120px] sm:max-w-[130px]">
+                            <span className="rounded-md border border-blue-100 bg-blue-50/70 text-blue-800 dark:border-blue-900 dark:bg-blue-950/60 dark:text-blue-300 px-1.5 py-0.5 font-medium truncate max-w-[120px] sm:max-w-[130px]">
                               📦 {ticket.product}
                             </span>
                           ) : null}
@@ -267,9 +267,9 @@ export function KanbanBoard({
                         {open ? (
                           <div
                             onClick={(e) => e.stopPropagation()}
-                            className="flex flex-wrap items-center gap-1 pt-1.5 border-t border-slate-100"
+                            className="flex flex-wrap items-center gap-1 pt-1.5 border-t border-slate-100 dark:border-slate-800"
                           >
-                            <span className="text-[10px] text-slate-400 font-medium mr-auto">
+                            <span className="text-[10px] text-slate-400 dark:text-slate-500 font-medium mr-auto">
                               Mover:
                             </span>
                             {ticket.status !== "pending" ? (
@@ -281,7 +281,7 @@ export function KanbanBoard({
                                   handleQuickStatusChange(ticket.id, "pending");
                                 }}
                                 title="Mover a Pendiente"
-                                className="rounded px-1.5 py-0.5 text-[10px] font-semibold bg-amber-50 text-amber-700 hover:bg-amber-100 transition"
+                                className="rounded px-1.5 py-0.5 text-[10px] font-semibold bg-amber-50 text-amber-700 hover:bg-amber-100 dark:bg-amber-950/60 dark:text-amber-300 dark:hover:bg-amber-900/60 transition cursor-pointer"
                               >
                                 ⏳ Pendiente
                               </button>
@@ -298,7 +298,7 @@ export function KanbanBoard({
                                   );
                                 }}
                                 title="Mover a En Proceso"
-                                className="rounded px-1.5 py-0.5 text-[10px] font-semibold bg-sky-50 text-sky-700 hover:bg-sky-100 transition"
+                                className="rounded px-1.5 py-0.5 text-[10px] font-semibold bg-sky-50 text-sky-700 hover:bg-sky-100 dark:bg-sky-950/60 dark:text-sky-300 dark:hover:bg-sky-900/60 transition cursor-pointer"
                               >
                                 ⚡ Proceso
                               </button>
@@ -312,7 +312,7 @@ export function KanbanBoard({
                                   handleQuickStatusChange(ticket.id, "in_review");
                                 }}
                                 title="Mover a En Revisión"
-                                className="rounded px-1.5 py-0.5 text-[10px] font-semibold bg-violet-50 text-violet-700 hover:bg-violet-100 transition"
+                                className="rounded px-1.5 py-0.5 text-[10px] font-semibold bg-violet-50 text-violet-700 hover:bg-violet-100 dark:bg-violet-950/60 dark:text-violet-300 dark:hover:bg-violet-900/60 transition cursor-pointer"
                               >
                                 🔍 Revisión
                               </button>
@@ -321,20 +321,20 @@ export function KanbanBoard({
                         ) : null}
 
                         {/* Footer de tarjeta: Asignado y Botón detalle */}
-                        <div className="flex items-center justify-between border-t border-slate-100 pt-2 text-xs text-slate-500">
+                        <div className="flex items-center justify-between border-t border-slate-100 dark:border-slate-800 pt-2 text-xs text-slate-500 dark:text-slate-400">
                           <span className="truncate max-w-[130px] sm:max-w-[150px] text-[10px] sm:text-[11px]">
                             {ticket.assignedTo ? (
-                              <span className="font-medium text-slate-700">
+                              <span className="font-medium text-slate-700 dark:text-slate-300">
                                 👤 {ticket.assignedTo.name}
                               </span>
                             ) : (
-                              <span className="text-amber-600 font-medium">
+                              <span className="text-amber-600 dark:text-amber-400 font-medium">
                                 ⚠️ Sin asignar
                               </span>
                             )}
                           </span>
 
-                          <span className="rounded-md bg-slate-50 px-2 py-1 text-[10px] sm:text-[11px] font-semibold text-slate-700 group-hover:bg-blue-600 group-hover:text-white transition">
+                          <span className="rounded-md bg-slate-50 text-slate-700 dark:bg-slate-800 dark:text-slate-300 px-2 py-1 text-[10px] sm:text-[11px] font-semibold group-hover:bg-blue-600 group-hover:text-white transition">
                             Ver &rarr;
                           </span>
                         </div>

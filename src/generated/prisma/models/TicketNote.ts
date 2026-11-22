@@ -424,6 +424,7 @@ export type TicketNoteCreateOrConnectWithoutAuthorInput = {
 
 export type TicketNoteCreateManyAuthorInputEnvelope = {
   data: Prisma.TicketNoteCreateManyAuthorInput | Prisma.TicketNoteCreateManyAuthorInput[]
+  skipDuplicates?: boolean
 }
 
 export type TicketNoteUpsertWithWhereUniqueWithoutAuthorInput = {
@@ -474,6 +475,7 @@ export type TicketNoteCreateOrConnectWithoutTicketInput = {
 
 export type TicketNoteCreateManyTicketInputEnvelope = {
   data: Prisma.TicketNoteCreateManyTicketInput | Prisma.TicketNoteCreateManyTicketInput[]
+  skipDuplicates?: boolean
 }
 
 export type TicketNoteUpsertWithWhereUniqueWithoutTicketInput = {
@@ -1278,6 +1280,7 @@ export type TicketNoteCreateManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * The data used to create many TicketNotes.
    */
   data: Prisma.TicketNoteCreateManyInput | Prisma.TicketNoteCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1296,6 +1299,7 @@ export type TicketNoteCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Exte
    * The data used to create many TicketNotes.
    */
   data: Prisma.TicketNoteCreateManyInput | Prisma.TicketNoteCreateManyInput[]
+  skipDuplicates?: boolean
   /**
    * Choose, which related nodes to fetch as well
    */

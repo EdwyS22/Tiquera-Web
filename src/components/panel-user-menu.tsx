@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 
 import { logout } from "@/app/actions/auth";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 type PanelUserMenuProps = {
   name: string;
@@ -76,17 +77,17 @@ export function PanelUserMenu({
       {/* Botón del Menú (<summary> nativo, sin nested buttons) */}
       <summary
         aria-label="Abrir menú de usuario"
-        className="flex h-9 items-center gap-2 rounded-lg border border-slate-200 bg-white px-2 sm:px-2.5 transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500/20 active:bg-slate-100 list-none [&::-webkit-details-marker]:hidden cursor-pointer select-none"
+        className="flex h-9 items-center gap-2 rounded-lg border border-slate-200 bg-white px-2 sm:px-2.5 transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500/20 active:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800 dark:active:bg-slate-800 list-none [&::-webkit-details-marker]:hidden cursor-pointer select-none"
       >
         <span className="flex h-6 w-6 items-center justify-center rounded-md bg-blue-600 text-xs font-bold text-white shadow-xs pointer-events-none">
           {initials || "U"}
         </span>
 
         <span className="hidden text-left sm:block pointer-events-none">
-          <span className="block text-xs font-semibold text-slate-800 leading-tight">
+          <span className="block text-xs font-semibold text-slate-800 dark:text-slate-100 leading-tight">
             {name}
           </span>
-          <span className="block text-[10px] text-slate-500 font-medium leading-tight">
+          <span className="block text-[10px] text-slate-500 dark:text-slate-400 font-medium leading-tight">
             {roleLabel}
           </span>
         </span>
@@ -97,7 +98,7 @@ export function PanelUserMenu({
           viewBox="0 0 24 24"
           strokeWidth={2}
           stroke="currentColor"
-          className="h-3.5 w-3.5 text-slate-400 transition-transform duration-150 group-open:rotate-180 pointer-events-none"
+          className="h-3.5 w-3.5 text-slate-400 dark:text-slate-500 transition-transform duration-150 group-open:rotate-180 pointer-events-none"
         >
           <path
             strokeLinecap="round"
@@ -108,14 +109,14 @@ export function PanelUserMenu({
       </summary>
 
       {/* Menú Desplegable */}
-      <div className="absolute right-0 top-full mt-2 w-64 max-w-[calc(100vw-24px)] z-50 overflow-hidden rounded-xl border border-slate-200 bg-white py-1.5 shadow-2xl">
+      <div className="absolute right-0 top-full mt-2 w-64 max-w-[calc(100vw-24px)] z-50 overflow-hidden rounded-xl border border-slate-200 bg-white py-1.5 shadow-2xl dark:border-slate-800 dark:bg-slate-900">
         {/* Cabecera del usuario (Solo nombre y rol, CERO correos) */}
-        <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3 bg-slate-50/80">
+        <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3 bg-slate-50/80 dark:border-slate-800 dark:bg-slate-950/80">
           <div>
-            <p className="text-sm font-bold text-slate-900 leading-snug">{name}</p>
+            <p className="text-sm font-bold text-slate-900 dark:text-white leading-snug">{name}</p>
             <div className="mt-1 flex items-center gap-1.5">
               <span className="inline-block h-2 w-2 rounded-full bg-emerald-500" />
-              <span className="text-xs font-semibold text-slate-600">
+              <span className="text-xs font-semibold text-slate-600 dark:text-slate-300">
                 {roleLabel}
               </span>
             </div>
@@ -126,7 +127,7 @@ export function PanelUserMenu({
             type="button"
             onClick={closeMenu}
             aria-label="Cerrar menú"
-            className="sm:hidden -mr-1 p-1 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-200/60"
+            className="sm:hidden -mr-1 p-1 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-200/60 dark:text-slate-500 dark:hover:text-slate-300 dark:hover:bg-slate-800"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -149,8 +150,8 @@ export function PanelUserMenu({
             aria-current={isPanelActive ? "page" : undefined}
             className={`flex items-center justify-between px-4 py-2.5 text-xs font-medium transition ${
               isPanelActive
-                ? "bg-blue-50 text-blue-700 font-semibold border-l-2 border-blue-600"
-                : "text-slate-700 hover:bg-slate-100 active:bg-slate-100"
+                ? "bg-blue-50 text-blue-700 font-semibold border-l-2 border-blue-600 dark:bg-blue-950/60 dark:text-blue-300 dark:border-blue-500"
+                : "text-slate-700 hover:bg-slate-100 active:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
             }`}
           >
             <div className="flex items-center gap-3">
@@ -160,7 +161,7 @@ export function PanelUserMenu({
                 viewBox="0 0 24 24"
                 strokeWidth={1.8}
                 stroke="currentColor"
-                className={`h-4 w-4 ${isPanelActive ? "text-blue-600" : "text-slate-500"}`}
+                className={`h-4 w-4 ${isPanelActive ? "text-blue-600 dark:text-blue-400" : "text-slate-500 dark:text-slate-400"}`}
               >
                 <path
                   strokeLinecap="round"
@@ -171,7 +172,7 @@ export function PanelUserMenu({
               <span>Vista General / Panel</span>
             </div>
             {isPanelActive && (
-              <span className="h-1.5 w-1.5 rounded-full bg-blue-600" />
+              <span className="h-1.5 w-1.5 rounded-full bg-blue-600 dark:bg-blue-400" />
             )}
           </Link>
 
@@ -181,8 +182,8 @@ export function PanelUserMenu({
             aria-current={isNuevoActive ? "page" : undefined}
             className={`flex items-center justify-between px-4 py-2.5 text-xs font-medium transition ${
               isNuevoActive
-                ? "bg-blue-50 text-blue-700 font-semibold border-l-2 border-blue-600"
-                : "text-slate-700 hover:bg-slate-100 active:bg-slate-100"
+                ? "bg-blue-50 text-blue-700 font-semibold border-l-2 border-blue-600 dark:bg-blue-950/60 dark:text-blue-300 dark:border-blue-500"
+                : "text-slate-700 hover:bg-slate-100 active:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
             }`}
           >
             <div className="flex items-center gap-3">
@@ -192,7 +193,7 @@ export function PanelUserMenu({
                 viewBox="0 0 24 24"
                 strokeWidth={1.8}
                 stroke="currentColor"
-                className={`h-4 w-4 ${isNuevoActive ? "text-blue-600" : "text-slate-500"}`}
+                className={`h-4 w-4 ${isNuevoActive ? "text-blue-600 dark:text-blue-400" : "text-slate-500 dark:text-slate-400"}`}
               >
                 <path
                   strokeLinecap="round"
@@ -203,7 +204,7 @@ export function PanelUserMenu({
               <span>Crear ticket</span>
             </div>
             {isNuevoActive && (
-              <span className="h-1.5 w-1.5 rounded-full bg-blue-600" />
+              <span className="h-1.5 w-1.5 rounded-full bg-blue-600 dark:bg-blue-400" />
             )}
           </Link>
 
@@ -214,8 +215,8 @@ export function PanelUserMenu({
               aria-current={isUsuariosActive ? "page" : undefined}
               className={`flex items-center justify-between px-4 py-2.5 text-xs font-medium transition ${
                 isUsuariosActive
-                  ? "bg-blue-50 text-blue-700 font-semibold border-l-2 border-blue-600"
-                  : "text-slate-700 hover:bg-slate-100 active:bg-slate-100"
+                  ? "bg-blue-50 text-blue-700 font-semibold border-l-2 border-blue-600 dark:bg-blue-950/60 dark:text-blue-300 dark:border-blue-500"
+                  : "text-slate-700 hover:bg-slate-100 active:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
               }`}
             >
               <div className="flex items-center gap-3">
@@ -225,7 +226,7 @@ export function PanelUserMenu({
                   viewBox="0 0 24 24"
                   strokeWidth={1.8}
                   stroke="currentColor"
-                  className={`h-4 w-4 ${isUsuariosActive ? "text-blue-600" : "text-slate-500"}`}
+                  className={`h-4 w-4 ${isUsuariosActive ? "text-blue-600 dark:text-blue-400" : "text-slate-500 dark:text-slate-400"}`}
                 >
                   <path
                     strokeLinecap="round"
@@ -236,7 +237,7 @@ export function PanelUserMenu({
                 <span>Gestión de usuarios</span>
               </div>
               {isUsuariosActive && (
-                <span className="h-1.5 w-1.5 rounded-full bg-blue-600" />
+                <span className="h-1.5 w-1.5 rounded-full bg-blue-600 dark:bg-blue-400" />
               )}
             </Link>
           ) : null}
@@ -247,8 +248,8 @@ export function PanelUserMenu({
             aria-current={isNotifActive ? "page" : undefined}
             className={`flex items-center justify-between px-4 py-2.5 text-xs font-medium transition ${
               isNotifActive
-                ? "bg-blue-50 text-blue-700 font-semibold border-l-2 border-blue-600"
-                : "text-slate-700 hover:bg-slate-100 active:bg-slate-100"
+                ? "bg-blue-50 text-blue-700 font-semibold border-l-2 border-blue-600 dark:bg-blue-950/60 dark:text-blue-300 dark:border-blue-500"
+                : "text-slate-700 hover:bg-slate-100 active:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
             }`}
           >
             <div className="flex items-center gap-3">
@@ -258,7 +259,7 @@ export function PanelUserMenu({
                 viewBox="0 0 24 24"
                 strokeWidth={1.8}
                 stroke="currentColor"
-                className={`h-4 w-4 ${isNotifActive ? "text-blue-600" : "text-slate-500"}`}
+                className={`h-4 w-4 ${isNotifActive ? "text-blue-600 dark:text-blue-400" : "text-slate-500 dark:text-slate-400"}`}
               >
                 <path
                   strokeLinecap="round"
@@ -269,17 +270,22 @@ export function PanelUserMenu({
               <span>Notificaciones</span>
             </div>
             {isNotifActive && (
-              <span className="h-1.5 w-1.5 rounded-full bg-blue-600" />
+              <span className="h-1.5 w-1.5 rounded-full bg-blue-600 dark:bg-blue-400" />
             )}
           </Link>
         </div>
 
+        {/* Selector de Tema en el menú */}
+        <div className="border-t border-slate-100 dark:border-slate-800">
+          <ThemeToggle variant="menu-item" />
+        </div>
+
         {/* Botón Cerrar Sesión */}
-        <div className="border-t border-slate-100 pt-1">
+        <div className="border-t border-slate-100 dark:border-slate-800 pt-1">
           <form action={logout}>
             <button
               type="submit"
-              className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-xs font-semibold text-red-600 transition hover:bg-red-50 active:bg-red-50"
+              className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-xs font-semibold text-red-600 transition hover:bg-red-50 active:bg-red-50 dark:text-red-400 dark:hover:bg-red-950/40"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

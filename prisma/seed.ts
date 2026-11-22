@@ -1,15 +1,18 @@
 import "dotenv/config";
 
-import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
+import { PrismaPg } from "@prisma/adapter-pg";
 import { hash } from "bcryptjs";
+import { Pool } from "pg";
 
 import { PrismaClient } from "../src/generated/prisma/client";
 import { slaDeadline } from "../src/lib/tickets";
 
-const adapter = new PrismaBetterSqlite3({
-  url: process.env.DATABASE_URL ?? "file:./dev.db",
+const pool = new Pool({
+  connectionString:
+    process.env.DATABASE_URL ||
+    "postgresql://postgres:postgres@localhost:5432/tiquera_web?schema=public",
 });
-
+const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 
 const ADMIN_EMAIL = process.env.SEED_ADMIN_EMAIL ?? "admin@tiquera.local";
@@ -134,4 +137,5 @@ main()
   })
   .finally(async () => {
     await prisma.$disconnect();
+    await pool.end();
   });

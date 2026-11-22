@@ -124,10 +124,10 @@ export default async function PanelPage({
       {/* Encabezado del Panel */}
       <header className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900">
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
             Tablero de Tickets por Columnas
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500">
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
             {isSuperadmin
               ? "Supervisión global de tickets organizados en columnas por estado."
               : `Bandeja de tickets exclusiva del Área de ${AREA_LABELS[staff.area]}.`}
@@ -143,7 +143,7 @@ export default async function PanelPage({
               <span>Área: {AREA_LABELS[staff.area]}</span>
             </span>
           ) : (
-            <span className="inline-flex items-center gap-1.5 rounded-xl border border-blue-200 bg-blue-50 px-3 py-1.5 text-xs font-bold text-blue-700">
+            <span className="inline-flex items-center gap-1.5 rounded-xl border border-blue-200 bg-blue-50 px-3 py-1.5 text-xs font-bold text-blue-700 dark:border-blue-900 dark:bg-blue-950/60 dark:text-blue-300">
               <span>👑</span>
               <span>Superadmin</span>
             </span>
@@ -164,14 +164,14 @@ export default async function PanelPage({
         ).map((item, index) => (
           <div
             key={item}
-            className={`rounded-xl border border-slate-200 border-t-4 bg-white p-3 shadow-xs transition hover:shadow-sm ${
+            className={`rounded-xl border border-slate-200 dark:border-slate-800 border-t-4 bg-white dark:bg-slate-900 p-3 shadow-xs transition hover:shadow-sm ${
               STAT_ACCENTS[item]
             } ${index === 4 ? "col-span-2 sm:col-span-1 lg:col-span-1" : ""}`}
           >
-            <p className="text-[11px] font-medium uppercase tracking-wider text-slate-500 sm:text-xs">
+            <p className="text-[11px] font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400 sm:text-xs">
               {STATUS_LABELS[item]}
             </p>
-            <p className="mt-0.5 text-xl font-bold text-slate-900 sm:text-2xl">
+            <p className="mt-0.5 text-xl font-bold text-slate-900 dark:text-white sm:text-2xl">
               {totals[item] ?? 0}
             </p>
           </div>
@@ -182,10 +182,10 @@ export default async function PanelPage({
       <form
         method="get"
         action="/panel"
-        className="grid grid-cols-1 gap-3 rounded-2xl border border-slate-200 bg-white p-3.5 shadow-xs sm:grid-cols-2 lg:grid-cols-[1fr_auto_auto_auto_auto]"
+        className="grid grid-cols-1 gap-3 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-3.5 shadow-xs sm:grid-cols-2 lg:grid-cols-[1fr_auto_auto_auto_auto]"
       >
         <div>
-          <label htmlFor="q" className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+          <label htmlFor="q" className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
             Búsqueda
           </label>
           <input
@@ -194,20 +194,20 @@ export default async function PanelPage({
             type="search"
             defaultValue={q}
             placeholder="Código, título o correo..."
-            className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            className="mt-1 w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-sm text-slate-900 dark:text-white outline-none transition placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-950/50"
           />
         </div>
 
-        {isSuperadmin ? (
+        {isAdmin ? (
           <div>
-            <label htmlFor="area" className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+            <label htmlFor="area" className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
               Área
             </label>
             <select
               id="area"
               name="area"
               defaultValue={area ?? "all"}
-              className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+              className="mt-1 w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-sm text-slate-900 dark:text-white outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-950/50"
             >
               <option value="all">Todas las áreas</option>
               {AREAS.map((item) => (
@@ -220,14 +220,14 @@ export default async function PanelPage({
         ) : null}
 
         <div>
-          <label htmlFor="status" className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+          <label htmlFor="status" className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
             Estado
           </label>
           <select
             id="status"
             name="status"
             defaultValue={status ?? "all"}
-            className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            className="mt-1 w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-sm text-slate-900 dark:text-white outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-950/50"
           >
             <option value="all">Todos los estados</option>
             {VALID_STATUSES.map((item) => (
@@ -239,14 +239,14 @@ export default async function PanelPage({
         </div>
 
         <div>
-          <label htmlFor="assigned" className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+          <label htmlFor="assigned" className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
             Asignación
           </label>
           <select
             id="assigned"
             name="assigned"
             defaultValue={assigned ?? "all"}
-            className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            className="mt-1 w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-sm text-slate-900 dark:text-white outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-950/50"
           >
             <option value="all">Todos los agentes</option>
             <option value="mine">Solo los míos</option>
@@ -256,13 +256,13 @@ export default async function PanelPage({
         <div className="flex items-end gap-2 pt-1 sm:pt-0">
           <button
             type="submit"
-            className="flex-1 rounded-lg bg-blue-600 px-4 py-2 text-xs sm:text-sm font-semibold text-white shadow-xs transition hover:bg-blue-700 active:bg-blue-800 sm:flex-none"
+            className="flex-1 rounded-lg bg-blue-600 px-4 py-2 text-xs sm:text-sm font-semibold text-white shadow-xs transition hover:bg-blue-700 active:bg-blue-800 sm:flex-none cursor-pointer"
           >
             Filtrar
           </button>
           <a
             href="/panel"
-            className="flex-1 rounded-lg border border-slate-300 bg-white px-4 py-2 text-center text-xs sm:text-sm font-medium text-slate-700 transition hover:bg-slate-50 active:bg-slate-100 sm:flex-none"
+            className="flex-1 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 py-2 text-center text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-200 transition hover:bg-slate-50 dark:hover:bg-slate-700 active:bg-slate-100 sm:flex-none"
           >
             Limpiar
           </a>
@@ -272,10 +272,10 @@ export default async function PanelPage({
       {/* Vista de Columnas por Estado (Única Vista Permanente) */}
       <section className="flex flex-col gap-3">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
-          <h2 className="text-xs sm:text-sm font-bold text-slate-700 uppercase tracking-wider">
+          <h2 className="text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider">
             Tablero de Tickets por Estado
           </h2>
-          <span className="text-[11px] sm:text-xs text-slate-500">
+          <span className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400">
             {tickets.length} tickets en total • Desplaza verticalmente en cada columna
           </span>
         </div>
@@ -284,7 +284,7 @@ export default async function PanelPage({
       </section>
 
       {/* Footer del Panel */}
-      <footer className="border-t border-slate-200/60 pt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs text-slate-400">
+      <footer className="border-t border-slate-200/60 dark:border-slate-800 pt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs text-slate-400 dark:text-slate-500">
         <p>
           {staffList.length} especialistas registrados • Sistema exclusivo de Vionest Service
         </p>

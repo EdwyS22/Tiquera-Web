@@ -448,6 +448,7 @@ export type TicketMessageCreateOrConnectWithoutAuthorInput = {
 
 export type TicketMessageCreateManyAuthorInputEnvelope = {
   data: Prisma.TicketMessageCreateManyAuthorInput | Prisma.TicketMessageCreateManyAuthorInput[]
+  skipDuplicates?: boolean
 }
 
 export type TicketMessageUpsertWithWhereUniqueWithoutAuthorInput = {
@@ -501,6 +502,7 @@ export type TicketMessageCreateOrConnectWithoutTicketInput = {
 
 export type TicketMessageCreateManyTicketInputEnvelope = {
   data: Prisma.TicketMessageCreateManyTicketInput | Prisma.TicketMessageCreateManyTicketInput[]
+  skipDuplicates?: boolean
 }
 
 export type TicketMessageUpsertWithWhereUniqueWithoutTicketInput = {
@@ -1319,6 +1321,7 @@ export type TicketMessageCreateManyArgs<ExtArgs extends runtime.Types.Extensions
    * The data used to create many TicketMessages.
    */
   data: Prisma.TicketMessageCreateManyInput | Prisma.TicketMessageCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1337,6 +1340,7 @@ export type TicketMessageCreateManyAndReturnArgs<ExtArgs extends runtime.Types.E
    * The data used to create many TicketMessages.
    */
   data: Prisma.TicketMessageCreateManyInput | Prisma.TicketMessageCreateManyInput[]
+  skipDuplicates?: boolean
   /**
    * Choose, which related nodes to fetch as well
    */

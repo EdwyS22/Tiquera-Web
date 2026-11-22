@@ -100,7 +100,7 @@ export function PanelNav({ isSuperadmin, mobile = false }: PanelNavProps) {
             className={`inline-flex shrink-0 items-center gap-1.5 rounded-lg px-3 py-1.5 font-medium transition-all ${
               item.isActive
                 ? "bg-blue-600 text-white font-semibold shadow-xs"
-                : "bg-white text-slate-600 border border-slate-200/80 hover:bg-slate-100 hover:text-slate-900"
+                : "bg-white text-slate-600 border border-slate-200/80 hover:bg-slate-100 hover:text-slate-900 dark:bg-slate-900 dark:text-slate-300 dark:border-slate-800 dark:hover:bg-slate-800 dark:hover:text-white"
             }`}
           >
             {item.icon}
@@ -123,13 +123,15 @@ export function PanelNav({ isSuperadmin, mobile = false }: PanelNavProps) {
           aria-current={item.isActive ? "page" : undefined}
           className={`relative flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs lg:text-sm font-medium transition-all ${
             item.isActive
-              ? "bg-blue-50 text-blue-700 font-semibold shadow-2xs border border-blue-200/80"
-              : "text-slate-600 border border-transparent hover:bg-slate-100 hover:text-slate-900"
+              ? "bg-blue-50 text-blue-700 font-semibold shadow-2xs border border-blue-200/80 dark:bg-blue-950/60 dark:text-blue-300 dark:border-blue-800/80"
+              : "text-slate-600 border border-transparent hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/70 dark:hover:text-slate-200"
           }`}
         >
           <span
             className={
-              item.isActive ? "text-blue-600" : "text-slate-400 group-hover:text-slate-600"
+              item.isActive
+                ? "text-blue-600 dark:text-blue-400"
+                : "text-slate-400 dark:text-slate-500 group-hover:text-slate-600 dark:group-hover:text-slate-400"
             }
           >
             {item.icon}
@@ -137,7 +139,7 @@ export function PanelNav({ isSuperadmin, mobile = false }: PanelNavProps) {
           <span>{item.label}</span>
           {item.isActive && (
             <span
-              className="ml-0.5 h-1.5 w-1.5 rounded-full bg-blue-600"
+              className="ml-0.5 h-1.5 w-1.5 rounded-full bg-blue-600 dark:bg-blue-400"
               aria-hidden="true"
             />
           )}

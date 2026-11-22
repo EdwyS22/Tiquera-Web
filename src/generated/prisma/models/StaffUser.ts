@@ -1952,6 +1952,7 @@ export type StaffUserCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * The data used to create many StaffUsers.
    */
   data: Prisma.StaffUserCreateManyInput | Prisma.StaffUserCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1970,6 +1971,7 @@ export type StaffUserCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Exten
    * The data used to create many StaffUsers.
    */
   data: Prisma.StaffUserCreateManyInput | Prisma.StaffUserCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**

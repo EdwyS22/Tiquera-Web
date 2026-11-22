@@ -32,7 +32,7 @@ type UserRow = {
 };
 
 const inputClass =
-  "mt-1.5 w-full rounded-lg border border-slate-300 px-3 py-2 text-base text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100 sm:text-sm";
+  "mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-base text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100 sm:text-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:focus:ring-blue-900/30";
 
 function Feedback({ state }: { state: FormState }) {
   if (!state?.message) {
@@ -42,7 +42,9 @@ function Feedback({ state }: { state: FormState }) {
   return (
     <p
       className={`rounded-lg px-3 py-2 text-sm ${
-        state.ok ? "bg-emerald-50 text-emerald-700" : "bg-red-50 text-red-700"
+        state.ok
+          ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300"
+          : "bg-red-50 text-red-700 dark:bg-red-950/60 dark:text-red-300"
       }`}
     >
       {state.message}
@@ -56,7 +58,7 @@ function FieldErrors({ errors }: { errors?: string[] }) {
   }
 
   return (
-    <ul className="mt-1.5 space-y-0.5 text-sm text-red-600">
+    <ul className="mt-1.5 space-y-0.5 text-sm text-red-600 dark:text-red-400">
       {errors.map((error) => (
         <li key={error}>{error}</li>
       ))}
@@ -72,17 +74,17 @@ export function UsersManager({ users }: { users: UserRow[] }) {
 
   return (
     <div className="flex flex-col gap-6">
-      <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">
+      <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6 dark:border-slate-800 dark:bg-slate-900">
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
           Crear usuario
         </h2>
-        <p className="mt-1 text-xs text-slate-400">
+        <p className="mt-1 text-xs text-slate-400 dark:text-slate-500">
           El correo ingresado sera el usuario de acceso y recibira las
           notificaciones y la bienvenida automaticamente.
         </p>
         <form action={createAction} className="mt-4 grid gap-4 sm:grid-cols-2">
           <div>
-            <label htmlFor="user-name" className="text-xs font-medium text-slate-500">
+            <label htmlFor="user-name" className="text-xs font-medium text-slate-500 dark:text-slate-400">
               Nombre
             </label>
             <input
@@ -95,7 +97,7 @@ export function UsersManager({ users }: { users: UserRow[] }) {
             <FieldErrors errors={createState?.errors?.name} />
           </div>
           <div>
-            <label htmlFor="user-email" className="text-xs font-medium text-slate-500">
+            <label htmlFor="user-email" className="text-xs font-medium text-slate-500 dark:text-slate-400">
               Correo
             </label>
             <input
@@ -109,7 +111,7 @@ export function UsersManager({ users }: { users: UserRow[] }) {
             <FieldErrors errors={createState?.errors?.email} />
           </div>
           <div>
-            <label htmlFor="user-password" className="text-xs font-medium text-slate-500">
+            <label htmlFor="user-password" className="text-xs font-medium text-slate-500 dark:text-slate-400">
               Contrasena
             </label>
             <input
@@ -123,7 +125,7 @@ export function UsersManager({ users }: { users: UserRow[] }) {
             <FieldErrors errors={createState?.errors?.password} />
           </div>
           <div>
-            <label htmlFor="user-role" className="text-xs font-medium text-slate-500">
+            <label htmlFor="user-role" className="text-xs font-medium text-slate-500 dark:text-slate-400">
               Rol
             </label>
             <select id="user-role" name="role" required defaultValue="agent" className={inputClass}>
@@ -133,7 +135,7 @@ export function UsersManager({ users }: { users: UserRow[] }) {
             <FieldErrors errors={createState?.errors?.role} />
           </div>
           <div>
-            <label htmlFor="user-area" className="text-xs font-medium text-slate-500">
+            <label htmlFor="user-area" className="text-xs font-medium text-slate-500 dark:text-slate-400">
               Área de la empresa
             </label>
             <select id="user-area" name="area" required defaultValue="tecnologia" className={inputClass}>
@@ -146,7 +148,7 @@ export function UsersManager({ users }: { users: UserRow[] }) {
             <FieldErrors errors={createState?.errors?.area} />
           </div>
           <div className="sm:col-span-2">
-            <label htmlFor="user-mailpass" className="text-xs font-medium text-slate-500">
+            <label htmlFor="user-mailpass" className="text-xs font-medium text-slate-500 dark:text-slate-400">
               Clave de aplicacion de Gmail (opcional - permite enviar los correos desde la cuenta del usuario)
             </label>
             <input
@@ -175,41 +177,41 @@ export function UsersManager({ users }: { users: UserRow[] }) {
         </form>
       </section>
 
-      <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-        <div className="border-b border-slate-200 px-5 py-4">
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">
+      <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+        <div className="border-b border-slate-200 px-5 py-4 dark:border-slate-800">
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
             Usuarios ({users.length})
           </h2>
         </div>
-        <ul className="divide-y divide-slate-100">
+        <ul className="divide-y divide-slate-100 dark:divide-slate-800">
           {users.map((user) => (
             <li key={user.id} className="px-5 py-4">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
                   <div className="flex flex-wrap items-center gap-2">
-                    <p className="font-medium text-slate-900">{user.name}</p>
+                    <p className="font-medium text-slate-900 dark:text-white">{user.name}</p>
                     <span className={`inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs font-semibold border ${AREA_STYLES[user.area]}`}>
                       <span>{AREA_ICONS[user.area]}</span>
                       <span>{AREA_LABELS[user.area]}</span>
                     </span>
                     {!user.active ? (
-                      <span className="rounded-full bg-red-100 px-2 py-0.5 text-xs font-medium text-red-700">
+                      <span className="rounded-full bg-red-100 px-2 py-0.5 text-xs font-medium text-red-700 dark:bg-red-950/70 dark:text-red-300">
                         Desactivado
                       </span>
                     ) : null}
                   </div>
-                  <p className="text-sm text-slate-500">{user.email}</p>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">{user.email}</p>
                   <div className="mt-0.5 flex flex-wrap items-center gap-2 text-xs">
-                    <span className="text-slate-400">
+                    <span className="text-slate-400 dark:text-slate-500">
                       Rol: {ROLE_LABELS[user.role as keyof typeof ROLE_LABELS] ?? user.role}
                     </span>
-                    <span className="text-slate-300">•</span>
+                    <span className="text-slate-300 dark:text-slate-600">•</span>
                     {user.mailConnected ? (
-                      <span className="font-medium text-emerald-600">
+                      <span className="font-medium text-emerald-600 dark:text-emerald-400">
                         Gmail conectado
                       </span>
                     ) : (
-                      <span className="text-amber-600">Gmail no conectado</span>
+                      <span className="text-amber-600 dark:text-amber-400">Gmail no conectado</span>
                     )}
                   </div>
                 </div>
@@ -241,7 +243,7 @@ function ChangeAreaForm({ user }: { user: UserRow }) {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="rounded-lg border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:bg-slate-100"
+        className="rounded-lg border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
       >
         Cambiar área
       </button>
@@ -254,7 +256,7 @@ function ChangeAreaForm({ user }: { user: UserRow }) {
       <select
         name="area"
         defaultValue={user.area}
-        className="rounded-lg border border-slate-300 px-2.5 py-1.5 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+        className="rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
       >
         {AREAS.map((item) => (
           <option key={item} value={item}>
@@ -272,7 +274,7 @@ function ChangeAreaForm({ user }: { user: UserRow }) {
       <button
         type="button"
         onClick={() => setOpen(false)}
-        className="rounded-lg border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:bg-slate-100"
+        className="rounded-lg border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
       >
         Cancelar
       </button>
@@ -293,7 +295,7 @@ function MailPasswordForm({ user }: { user: UserRow }) {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="rounded-lg border border-emerald-300 px-3 py-1.5 text-sm font-medium text-emerald-700 transition hover:bg-emerald-50"
+        className="rounded-lg border border-emerald-300 px-3 py-1.5 text-sm font-medium text-emerald-700 transition hover:bg-emerald-50 dark:border-emerald-800 dark:text-emerald-300 dark:hover:bg-emerald-950/40"
       >
         {user.mailConnected ? "Cambiar Gmail" : "Conectar Gmail"}
       </button>
@@ -308,7 +310,7 @@ function MailPasswordForm({ user }: { user: UserRow }) {
         type="password"
         autoComplete="off"
         placeholder={`Clave de aplicacion de ${user.email}`}
-        className="w-52 rounded-lg border border-slate-300 px-3 py-1.5 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+        className="w-52 rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
       />
       <button
         type="submit"
@@ -320,7 +322,7 @@ function MailPasswordForm({ user }: { user: UserRow }) {
       <button
         type="button"
         onClick={() => setOpen(false)}
-        className="rounded-lg border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:bg-slate-100"
+        className="rounded-lg border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
       >
         Cancelar
       </button>
@@ -341,7 +343,7 @@ function ToggleUserForm({ user }: { user: UserRow }) {
       <button
         type="submit"
         disabled={pending}
-        className="rounded-lg border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:bg-slate-100 disabled:opacity-60"
+        className="rounded-lg border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:bg-slate-100 disabled:opacity-60 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
       >
         {user.active ? "Desactivar" : "Activar"}
       </button>
@@ -371,12 +373,12 @@ function ResetPasswordForm({
         required
         minLength={8}
         placeholder={`Nueva clave de ${userName}`}
-        className="w-44 rounded-lg border border-slate-300 px-3 py-1.5 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+        className="w-44 rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
       />
       <button
         type="submit"
         disabled={pending}
-        className="rounded-lg bg-slate-900 px-3 py-1.5 text-sm font-medium text-white transition hover:bg-slate-700 disabled:opacity-60"
+        className="rounded-lg bg-slate-900 px-3 py-1.5 text-sm font-medium text-white transition hover:bg-slate-700 disabled:opacity-60 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-200"
       >
         Cambiar clave
       </button>
@@ -401,7 +403,7 @@ function DeleteUserForm({ user }: { user: UserRow }) {
       <button
         type="button"
         onClick={() => setConfirming(true)}
-        className="rounded-lg border border-red-200 px-3 py-1.5 text-sm font-medium text-red-600 transition hover:bg-red-50"
+        className="rounded-lg border border-red-200 px-3 py-1.5 text-sm font-medium text-red-600 transition hover:bg-red-50 dark:border-red-900 dark:text-red-400 dark:hover:bg-red-950/40"
       >
         Eliminar
       </button>
@@ -411,7 +413,7 @@ function DeleteUserForm({ user }: { user: UserRow }) {
   return (
     <form action={action} className="flex flex-wrap items-center gap-2">
       <input type="hidden" name="userId" value={user.id} />
-      <span className="text-xs font-medium text-red-600">
+      <span className="text-xs font-medium text-red-600 dark:text-red-400">
         Eliminar a {user.name}?
       </span>
       <button
@@ -424,12 +426,12 @@ function DeleteUserForm({ user }: { user: UserRow }) {
       <button
         type="button"
         onClick={() => setConfirming(false)}
-        className="rounded-lg border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:bg-slate-100"
+        className="rounded-lg border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
       >
         Cancelar
       </button>
       {state?.message && !state.ok ? (
-        <span className="text-xs text-red-600">{state.message}</span>
+        <span className="text-xs text-red-600 dark:text-red-400">{state.message}</span>
       ) : null}
     </form>
   );

@@ -83,7 +83,7 @@ export type TicketFullData = {
 };
 
 const inputClass =
-  "mt-1.5 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100";
+  "mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:focus:ring-blue-900/30";
 
 function Feedback({ state }: { state: FormState }) {
   if (state?.message) {
@@ -91,8 +91,8 @@ function Feedback({ state }: { state: FormState }) {
       <p
         className={`rounded-lg px-3 py-2 text-xs font-medium ${
           state.ok
-            ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
-            : "bg-red-50 text-red-800 border border-red-200"
+            ? "bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800"
+            : "bg-red-50 text-red-800 border border-red-200 dark:bg-red-950/60 dark:text-red-300 dark:border-red-800"
         }`}
       >
         {state.message}
@@ -109,7 +109,7 @@ function FieldErrors({ errors }: { errors?: string[] }) {
   }
 
   return (
-    <ul className="mt-1 space-y-0.5 text-xs text-red-600">
+    <ul className="mt-1 space-y-0.5 text-xs text-red-600 dark:text-red-400">
       {errors.map((error) => (
         <li key={error}>{error}</li>
       ))}
@@ -194,12 +194,12 @@ export function TicketManager({
       {/* ========================================================================= */}
       {/* ⚙️ COLUMNA IZQUIERDA: PARÁMETROS DEL TICKET CON EL MÁXIMO ORDEN           */}
       {/* ========================================================================= */}
-      <aside className="flex flex-col gap-3 sm:gap-4 rounded-2xl border border-slate-200 bg-white p-3.5 sm:p-5 shadow-xs lg:sticky lg:top-20">
+      <aside className="flex flex-col gap-3 sm:gap-4 rounded-2xl border border-slate-200 bg-white p-3.5 sm:p-5 shadow-xs lg:sticky lg:top-20 dark:border-slate-800 dark:bg-slate-900">
         {/* Cabecera del Panel de Parámetros */}
-        <div className="border-b border-slate-100 pb-2.5 sm:pb-3">
+        <div className="border-b border-slate-100 pb-2.5 sm:pb-3 dark:border-slate-800">
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-1.5 flex-wrap">
-              <h2 className="text-xs font-bold uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+              <h2 className="text-xs font-bold uppercase tracking-wider text-slate-800 flex items-center gap-1.5 dark:text-slate-100">
                 <span>⚙️</span>
                 <span>Parámetros</span>
               </h2>
@@ -213,20 +213,20 @@ export function TicketManager({
               <button
                 type="button"
                 onClick={() => setShowEditForm(!showEditForm)}
-                className="text-[11px] font-semibold text-blue-600 hover:underline"
+                className="text-[11px] font-semibold text-blue-600 hover:underline dark:text-blue-400"
               >
                 {showEditForm ? "Cerrar edición" : "✏️ Editar"}
               </button>
               <button
                 type="button"
                 onClick={() => setMobileParamsOpen(!mobileParamsOpen)}
-                className="lg:hidden rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-[11px] font-bold text-slate-700 hover:bg-slate-100 transition"
+                className="lg:hidden rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-[11px] font-bold text-slate-700 hover:bg-slate-100 transition dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
               >
                 {mobileParamsOpen ? "Ocultar ▲" : "Ver parámetros ▼"}
               </button>
             </div>
           </div>
-          <p className="text-[11px] text-slate-400 mt-0.5 hidden sm:block">
+          <p className="text-[11px] text-slate-400 mt-0.5 hidden sm:block dark:text-slate-500">
             Estado, asignación y metadatos del caso
           </p>
         </div>
@@ -239,11 +239,11 @@ export function TicketManager({
         >
 
         {/* 1. ESTADO ACTUAL (CON SELECTOR RÁPIDO) */}
-        <div className="rounded-xl border border-slate-100 bg-slate-50/80 p-3 shadow-xs">
+        <div className="rounded-xl border border-slate-100 bg-slate-50/80 p-3 shadow-xs dark:border-slate-800 dark:bg-slate-800/40">
           <form action={statusAction} className="flex flex-col gap-1.5">
             <input type="hidden" name="ticketId" value={ticket.id} />
             <div className="flex items-center justify-between">
-              <label className="text-[11px] font-bold uppercase tracking-wider text-slate-600">
+              <label className="text-[11px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">
                 Estado
               </label>
               <span
@@ -257,7 +257,7 @@ export function TicketManager({
                 <select
                   name="status"
                   defaultValue={manageableStatus}
-                  className="w-full rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs text-slate-900 outline-none focus:border-blue-500"
+                  className="w-full rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs text-slate-900 outline-none focus:border-blue-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
                 >
                   <option value="pending">⏳ Pendiente</option>
                   <option value="in_progress">⚡ En Proceso</option>
@@ -266,7 +266,7 @@ export function TicketManager({
                 <button
                   type="submit"
                   disabled={statusPending}
-                  className="rounded-lg bg-slate-900 px-3 py-1.5 text-xs font-semibold text-white hover:bg-slate-700 shrink-0 disabled:opacity-50 transition"
+                  className="rounded-lg bg-slate-900 px-3 py-1.5 text-xs font-semibold text-white hover:bg-slate-700 shrink-0 disabled:opacity-50 transition dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-200"
                 >
                   {statusPending ? "..." : "Actualizar"}
                 </button>
@@ -277,14 +277,14 @@ export function TicketManager({
         </div>
 
         {/* 2. ESPECIALISTA ASIGNADO (CON SELECTOR RÁPIDO) */}
-        <div className="rounded-xl border border-slate-100 bg-slate-50/80 p-3 shadow-xs">
+        <div className="rounded-xl border border-slate-100 bg-slate-50/80 p-3 shadow-xs dark:border-slate-800 dark:bg-slate-800/40">
           <form action={assignAction} className="flex flex-col gap-1.5">
             <input type="hidden" name="ticketId" value={ticket.id} />
             <div className="flex items-center justify-between">
-              <label className="text-[11px] font-bold uppercase tracking-wider text-slate-600">
+              <label className="text-[11px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">
                 Asignado a
               </label>
-              <span className="text-[11px] font-semibold text-slate-700 truncate max-w-[160px]">
+              <span className="text-[11px] font-semibold text-slate-700 truncate max-w-[160px] dark:text-slate-300">
                 {ticket.assignedTo ? ticket.assignedTo.name : "⚠️ Sin asignar"}
               </span>
             </div>
@@ -292,7 +292,7 @@ export function TicketManager({
               <select
                 name="assignedToId"
                 defaultValue={ticket.assignedTo?.id ?? ""}
-                className="w-full rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs text-slate-900 outline-none focus:border-blue-500"
+                className="w-full rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs text-slate-900 outline-none focus:border-blue-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
               >
                 <option value="">Sin asignar (En espera)</option>
                 {areaAgents.length > 0 ? (
@@ -317,12 +317,12 @@ export function TicketManager({
               <button
                 type="submit"
                 disabled={assignPending}
-                className="rounded-lg bg-slate-900 px-3 py-1.5 text-xs font-semibold text-white hover:bg-slate-700 shrink-0 disabled:opacity-50 transition"
+                className="rounded-lg bg-slate-900 px-3 py-1.5 text-xs font-semibold text-white hover:bg-slate-700 shrink-0 disabled:opacity-50 transition dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-200"
               >
                 {assignPending ? "..." : "Asignar"}
               </button>
             </div>
-            <p className="text-[10px] text-slate-400 mt-1 leading-tight">
+            <p className="text-[10px] text-slate-400 mt-1 leading-tight dark:text-slate-500">
               🔒 Solo asignable a personal de {AREA_LABELS[ticket.area]} o administradores. Para asignar a otro trabajador, mueve el ticket de área.
             </p>
             <Feedback state={assignState} />
@@ -330,10 +330,10 @@ export function TicketManager({
         </div>
 
         {/* 3. PARÁMETROS TÉCNICOS ORGANIZADOS */}
-        <div className="flex flex-col divide-y divide-slate-100 text-xs">
+        <div className="flex flex-col divide-y divide-slate-100 text-xs dark:divide-slate-800">
           {/* Prioridad */}
           <div className="py-2.5 flex items-center justify-between">
-            <span className="text-slate-500 font-medium">Prioridad</span>
+            <span className="text-slate-500 font-medium dark:text-slate-400">Prioridad</span>
             <span
               className={`rounded-md px-2 py-0.5 font-bold text-[11px] ${PRIORITY_STYLES[ticket.priority]}`}
             >
@@ -344,7 +344,7 @@ export function TicketManager({
           {/* Área de la Empresa */}
           <div className="py-2.5 flex flex-col gap-1">
             <div className="flex items-center justify-between">
-              <span className="text-slate-500 font-medium">Área</span>
+              <span className="text-slate-500 font-medium dark:text-slate-400">Área</span>
               <span
                 className={`inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-[11px] font-semibold ${AREA_STYLES[ticket.area]}`}
               >
@@ -352,67 +352,67 @@ export function TicketManager({
                 <span>{AREA_LABELS[ticket.area]}</span>
               </span>
             </div>
-            <p className="text-[10px] text-slate-400 leading-tight">
+            <p className="text-[10px] text-slate-400 leading-tight dark:text-slate-500">
               {AREA_ROLES[ticket.area]}
             </p>
           </div>
 
           {/* Producto o Servicio */}
           <div className="py-2.5 flex items-center justify-between">
-            <span className="text-slate-500 font-medium">Producto / Servicio</span>
-            <span className="font-semibold text-slate-800 text-right truncate max-w-[190px]">
+            <span className="text-slate-500 font-medium dark:text-slate-400">Producto / Servicio</span>
+            <span className="font-semibold text-slate-800 text-right truncate max-w-[190px] dark:text-slate-200">
               {ticket.product ? `📦 ${ticket.product}` : "Consulta general"}
             </span>
           </div>
 
           {/* Categoría */}
           <div className="py-2.5 flex items-center justify-between">
-            <span className="text-slate-500 font-medium">Categoría</span>
-            <span className="font-semibold text-slate-800">
+            <span className="text-slate-500 font-medium dark:text-slate-400">Categoría</span>
+            <span className="font-semibold text-slate-800 dark:text-slate-200">
               {CATEGORY_LABELS[ticket.category]}
             </span>
           </div>
 
           {/* SLA Restante */}
           <div className="py-2.5 flex items-center justify-between">
-            <span className="text-slate-500 font-medium">SLA Restante</span>
-            <span className="font-bold text-slate-900">
+            <span className="text-slate-500 font-medium dark:text-slate-400">SLA Restante</span>
+            <span className="font-bold text-slate-900 dark:text-slate-100">
               {open ? `⏱ ${formatRemaining(new Date(ticket.dueAt))}` : "Cerrado"}
             </span>
           </div>
 
           {/* Fecha Límite SLA */}
           <div className="py-2.5 flex items-center justify-between">
-            <span className="text-slate-500 font-medium">Límite SLA</span>
-            <span className="text-slate-700">
+            <span className="text-slate-500 font-medium dark:text-slate-400">Límite SLA</span>
+            <span className="text-slate-700 dark:text-slate-300">
               {dateFormatter.format(new Date(ticket.dueAt))}
             </span>
           </div>
 
           {/* Fecha de creación */}
           <div className="py-2.5 flex items-center justify-between">
-            <span className="text-slate-500 font-medium">Creado</span>
-            <span className="text-slate-700">
+            <span className="text-slate-500 font-medium dark:text-slate-400">Creado</span>
+            <span className="text-slate-700 dark:text-slate-300">
               {dateFormatter.format(new Date(ticket.createdAt))}
             </span>
           </div>
 
           {/* Correo del Cliente */}
           <div className="py-2.5 flex flex-col gap-0.5">
-            <span className="text-slate-500 font-medium">Reportado por</span>
-            <span className="font-semibold text-slate-800 break-all">
+            <span className="text-slate-500 font-medium dark:text-slate-400">Reportado por</span>
+            <span className="font-semibold text-slate-800 break-all dark:text-slate-200">
               {ticket.reporterEmail}
             </span>
           </div>
 
           {/* Página afectada */}
           <div className="py-2.5 flex flex-col gap-0.5">
-            <span className="text-slate-500 font-medium">Página afectada</span>
+            <span className="text-slate-500 font-medium dark:text-slate-400">Página afectada</span>
             <a
               href={ticket.landingUrl}
               target="_blank"
               rel="noreferrer"
-              className="text-blue-600 hover:underline break-all font-medium text-[11px] inline-flex items-center gap-1"
+              className="text-blue-600 hover:underline break-all font-medium text-[11px] inline-flex items-center gap-1 dark:text-blue-400"
             >
               <span>{ticket.landingUrl}</span>
               <span>↗</span>
@@ -422,8 +422,8 @@ export function TicketManager({
           {/* Registrado por */}
           {ticket.createdBy ? (
             <div className="py-2.5 flex items-center justify-between">
-              <span className="text-slate-500 font-medium">Registrado por</span>
-              <span className="font-medium text-slate-700 truncate max-w-[160px]">
+              <span className="text-slate-500 font-medium dark:text-slate-400">Registrado por</span>
+              <span className="font-medium text-slate-700 truncate max-w-[160px] dark:text-slate-300">
                 {ticket.createdBy.name}
               </span>
             </div>
@@ -432,11 +432,11 @@ export function TicketManager({
 
         {/* Acceso directo al PDF si el ticket está cerrado */}
         {!open && ticket.closedAt ? (
-          <div className="pt-2 border-t border-slate-100">
+          <div className="pt-2 border-t border-slate-100 dark:border-slate-800">
             <a
               href={`/api/tickets/${ticket.code}/pdf`}
               download
-              className="inline-flex items-center justify-center gap-1.5 w-full rounded-xl bg-emerald-600 px-3.5 py-2.5 text-xs font-bold text-white shadow-xs transition hover:bg-emerald-700"
+              className="inline-flex items-center justify-center gap-1.5 w-full rounded-xl bg-emerald-600 px-3.5 py-2.5 text-xs font-bold text-white shadow-xs transition hover:bg-emerald-700 dark:bg-emerald-600 dark:hover:bg-emerald-500"
             >
               <span>📄</span>
               <span>Descargar PDF Oficial</span>
@@ -451,18 +451,18 @@ export function TicketManager({
       {/* ========================================================================= */}
       <div className="flex flex-col gap-6">
         {/* Descripción del problema y Evidencias adjuntas */}
-        <section className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-xs">
-          <h2 className="text-xs font-bold uppercase tracking-wider text-slate-500">
+        <section className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-xs dark:border-slate-800 dark:bg-slate-900">
+          <h2 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
             Descripción detallada del problema
           </h2>
-          <p className="mt-2.5 whitespace-pre-wrap text-sm text-slate-800 leading-relaxed font-normal">
+          <p className="mt-2.5 whitespace-pre-wrap text-sm text-slate-800 leading-relaxed font-normal dark:text-slate-100">
             {ticket.description}
           </p>
 
           {/* Evidencias adjuntas */}
           {ticket.attachments && ticket.attachments.length > 0 ? (
-            <div className="mt-5 border-t border-slate-100 pt-4">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2.5">
+            <div className="mt-5 border-t border-slate-100 pt-4 dark:border-slate-800">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2.5 dark:text-slate-400">
                 Evidencias y capturas adjuntas ({ticket.attachments.length})
               </h3>
               <ul className="flex flex-wrap gap-2.5">
@@ -477,7 +477,7 @@ export function TicketManager({
                         href={att.fileUrl}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-medium text-slate-700 shadow-xs transition hover:bg-blue-50 hover:border-blue-300 hover:text-blue-700"
+                        className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-medium text-slate-700 shadow-xs transition hover:bg-blue-50 hover:border-blue-300 hover:text-blue-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 dark:hover:text-blue-300"
                       >
                         <span>{isImage ? "🖼️" : "📎"}</span>
                         <span className="truncate max-w-[220px]">{att.fileName}</span>
@@ -493,12 +493,12 @@ export function TicketManager({
 
         {/* Nota de resolución oficial si el ticket ya fue completado */}
         {ticket.resolutionNotes ? (
-          <section className="rounded-2xl border border-emerald-200 bg-emerald-50/90 p-5 shadow-xs">
-            <div className="flex items-center gap-2 text-emerald-900 font-bold text-sm">
+          <section className="rounded-2xl border border-emerald-200 bg-emerald-50/90 p-5 shadow-xs dark:border-emerald-800 dark:bg-emerald-950/60">
+            <div className="flex items-center gap-2 text-emerald-900 font-bold text-sm dark:text-emerald-300">
               <span>✓</span>
               <h2>Resolución aplicada</h2>
             </div>
-            <p className="mt-2 whitespace-pre-wrap text-sm text-emerald-950 font-medium">
+            <p className="mt-2 whitespace-pre-wrap text-sm text-emerald-950 font-medium dark:text-emerald-200">
               {ticket.resolutionNotes}
             </p>
           </section>
@@ -506,15 +506,15 @@ export function TicketManager({
 
         {/* Formulario de edición rápida colapsable */}
         {showEditForm ? (
-          <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100 mb-3">
-              <h2 className="text-xs font-bold uppercase tracking-wider text-slate-700">
+          <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs dark:border-slate-800 dark:bg-slate-900">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100 mb-3 dark:border-slate-800">
+              <h2 className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
                 Modificar datos del reporte
               </h2>
               <button
                 type="button"
                 onClick={() => setShowEditForm(false)}
-                className="text-xs text-slate-400 hover:text-slate-600"
+                className="text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
               >
                 ✕ Cerrar
               </button>
@@ -523,7 +523,7 @@ export function TicketManager({
               <input type="hidden" name="ticketId" value={ticket.id} />
               <div className="grid gap-3 sm:grid-cols-2">
                 <div>
-                  <label htmlFor="edit-title" className="text-xs font-medium text-slate-600">
+                  <label htmlFor="edit-title" className="text-xs font-medium text-slate-600 dark:text-slate-300">
                     Título
                   </label>
                   <input
@@ -538,7 +538,7 @@ export function TicketManager({
                 </div>
 
                 <div>
-                  <label htmlFor="edit-landingUrl" className="text-xs font-medium text-slate-600">
+                  <label htmlFor="edit-landingUrl" className="text-xs font-medium text-slate-600 dark:text-slate-300">
                     URL afectada
                   </label>
                   <input
@@ -553,7 +553,7 @@ export function TicketManager({
                 </div>
 
                 <div>
-                  <label htmlFor="edit-reporterEmail" className="text-xs font-medium text-slate-600">
+                  <label htmlFor="edit-reporterEmail" className="text-xs font-medium text-slate-600 dark:text-slate-300">
                     Correo del cliente
                   </label>
                   <input
@@ -568,7 +568,7 @@ export function TicketManager({
                 </div>
 
                 <div>
-                  <label htmlFor="edit-area" className="text-xs font-medium text-slate-600">
+                  <label htmlFor="edit-area" className="text-xs font-medium text-slate-600 dark:text-slate-300">
                     Área de la empresa
                   </label>
                   <select
@@ -591,7 +591,7 @@ export function TicketManager({
                 </div>
 
                 <div>
-                  <label htmlFor="edit-product" className="text-xs font-medium text-slate-600">
+                  <label htmlFor="edit-product" className="text-xs font-medium text-slate-600 dark:text-slate-300">
                     Producto o Servicio
                   </label>
                   <select
@@ -612,7 +612,7 @@ export function TicketManager({
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label htmlFor="edit-category" className="text-xs font-medium text-slate-600">
+                    <label htmlFor="edit-category" className="text-xs font-medium text-slate-600 dark:text-slate-300">
                       Categoría
                     </label>
                     <select
@@ -630,7 +630,7 @@ export function TicketManager({
                   </div>
 
                   <div>
-                    <label htmlFor="edit-priority" className="text-xs font-medium text-slate-600">
+                    <label htmlFor="edit-priority" className="text-xs font-medium text-slate-600 dark:text-slate-300">
                       Prioridad
                     </label>
                     <select
@@ -649,7 +649,7 @@ export function TicketManager({
               </div>
 
               <div>
-                <label htmlFor="edit-description" className="text-xs font-medium text-slate-600">
+                <label htmlFor="edit-description" className="text-xs font-medium text-slate-600 dark:text-slate-300">
                   Descripción
                 </label>
                 <textarea
@@ -669,14 +669,14 @@ export function TicketManager({
                 <button
                   type="submit"
                   disabled={editPending}
-                  className="rounded-lg bg-slate-900 px-4 py-2 text-xs font-semibold text-white shadow-xs hover:bg-slate-700 disabled:opacity-60"
+                  className="rounded-lg bg-slate-900 px-4 py-2 text-xs font-semibold text-white shadow-xs hover:bg-slate-700 disabled:opacity-60 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-200"
                 >
                   {editPending ? "Guardando..." : "Guardar cambios"}
                 </button>
                 <button
                   type="button"
                   onClick={() => setShowEditForm(false)}
-                  className="rounded-lg border border-slate-300 px-3 py-2 text-xs font-medium text-slate-600 hover:bg-slate-50"
+                  className="rounded-lg border border-slate-300 px-3 py-2 text-xs font-medium text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
                 >
                   Cancelar
                 </button>
@@ -689,9 +689,9 @@ export function TicketManager({
         {/* ========================================================================= */}
         {/* 🎛️ ESPACIO DE ACCIONES UNIFICADO (JUNTOS CON EL MÁXIMO ORDEN EN PESTAÑAS)   */}
         {/* ========================================================================= */}
-        <section className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-xs">
+        <section className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-xs dark:border-slate-800 dark:bg-slate-900">
           {/* Navegación por pestañas para mantener el orden y evitar scroll */}
-          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-3 mb-5">
+          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-3 mb-5 dark:border-slate-800">
             <div className="flex flex-wrap items-center gap-1 sm:gap-2">
               <button
                 type="button"
@@ -699,7 +699,7 @@ export function TicketManager({
                 className={`inline-flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs font-bold transition ${
                   activeTab === "client"
                     ? "bg-blue-600 text-white shadow-xs"
-                    : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                    : "text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-200"
                 }`}
               >
                 <span>💬</span>
@@ -708,7 +708,7 @@ export function TicketManager({
                   className={`rounded-full px-2 py-0.2 text-[10px] font-bold ${
                     activeTab === "client"
                       ? "bg-white/20 text-white"
-                      : "bg-slate-100 text-slate-600"
+                      : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400"
                   }`}
                 >
                   {messages.length}
@@ -721,7 +721,7 @@ export function TicketManager({
                 className={`inline-flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs font-bold transition ${
                   activeTab === "internal"
                     ? "bg-amber-600 text-white shadow-xs"
-                    : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                    : "text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-200"
                 }`}
               >
                 <span>📝</span>
@@ -730,7 +730,7 @@ export function TicketManager({
                   className={`rounded-full px-2 py-0.2 text-[10px] font-bold ${
                     activeTab === "internal"
                       ? "bg-white/20 text-white"
-                      : "bg-slate-100 text-slate-600"
+                      : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400"
                   }`}
                 >
                   {notes.length}
@@ -743,13 +743,13 @@ export function TicketManager({
                 className={`inline-flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs font-bold transition ${
                   activeTab === "resolve"
                     ? "bg-emerald-600 text-white shadow-xs"
-                    : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                    : "text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-200"
                 }`}
               >
                 <span>🎯</span>
                 <span>Cierre Oficial</span>
                 {!open ? (
-                  <span className="rounded-full bg-emerald-100 px-1.5 py-0.2 text-[10px] font-bold text-emerald-800">
+                  <span className="rounded-full bg-emerald-100 px-1.5 py-0.2 text-[10px] font-bold text-emerald-800 dark:bg-emerald-950/70 dark:text-emerald-300">
                     Cerrado
                   </span>
                 ) : null}
@@ -761,8 +761,8 @@ export function TicketManager({
               onClick={() => setActiveTab(activeTab === "columns" ? "client" : "columns")}
               className={`inline-flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-semibold transition ${
                 activeTab === "columns"
-                  ? "border-blue-300 bg-blue-50 text-blue-700"
-                  : "border-slate-200 text-slate-600 hover:bg-slate-50"
+                  ? "border-blue-300 bg-blue-50 text-blue-700 dark:border-blue-800 dark:bg-blue-950/50 dark:text-blue-300"
+                  : "border-slate-200 text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
               }`}
             >
               <span>{activeTab === "columns" ? "📂 Vista en Pestañas" : "📑 Ver en Columnas"}</span>
@@ -773,11 +773,11 @@ export function TicketManager({
           {activeTab === "client" && (
             <div className="flex flex-col gap-5">
               <div>
-                <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2">
+                <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2 dark:text-slate-100">
                   <span>💬</span>
                   <span>Mensajes Directos al Cliente</span>
                 </h3>
-                <p className="mt-0.5 text-xs text-slate-500">
+                <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">
                   Envía solicitudes, preguntas o actualizaciones. El cliente recibe una notificación por correo electrónico.
                 </p>
               </div>
@@ -806,17 +806,17 @@ export function TicketManager({
 
               {/* Historial de mensajes */}
               {messages.length > 0 ? (
-                <div className="border-t border-slate-100 pt-4 space-y-3">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                <div className="border-t border-slate-100 pt-4 space-y-3 dark:border-slate-800">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
                     Historial de mensajes enviados ({messages.length})
                   </h4>
                   {messages.map((msg) => (
                     <div
                       key={msg.id}
-                      className="rounded-xl border border-blue-200/80 bg-blue-50/50 p-4 text-xs shadow-2xs"
+                      className="rounded-xl border border-blue-200/80 bg-blue-50/50 p-4 text-xs shadow-2xs dark:border-blue-900/60 dark:bg-blue-950/30"
                     >
-                      <div className="flex items-center justify-between text-[11px] text-slate-500 mb-1.5">
-                        <span className="font-bold text-slate-800">
+                      <div className="flex items-center justify-between text-[11px] text-slate-500 mb-1.5 dark:text-slate-400">
+                        <span className="font-bold text-slate-800 dark:text-slate-200">
                           {msg.author?.name ?? "Usuario"}
                         </span>
                         <span>
@@ -824,14 +824,14 @@ export function TicketManager({
                           {msg.emailSent ? " · ✉️ Correo enviado" : ""}
                         </span>
                       </div>
-                      <p className="whitespace-pre-wrap text-slate-800 text-xs leading-relaxed">
+                      <p className="whitespace-pre-wrap text-slate-800 text-xs leading-relaxed dark:text-slate-200">
                         {msg.body}
                       </p>
                     </div>
                   ))}
                 </div>
               ) : (
-                <p className="text-xs text-slate-400 italic">
+                <p className="text-xs text-slate-400 italic dark:text-slate-500">
                   Aún no se han enviado mensajes al cliente para este ticket.
                 </p>
               )}
@@ -842,11 +842,11 @@ export function TicketManager({
           {activeTab === "internal" && (
             <div className="flex flex-col gap-5">
               <div>
-                <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2">
+                <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2 dark:text-slate-100">
                   <span>📝</span>
                   <span>Bitácora Interna del Equipo</span>
                 </h3>
-                <p className="mt-0.5 text-xs text-slate-500">
+                <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">
                   Notas confidenciales visibles exclusivamente para el personal técnico y administrativo.
                 </p>
               </div>
@@ -875,31 +875,31 @@ export function TicketManager({
 
               {/* Historial de notas */}
               {notes.length > 0 ? (
-                <div className="border-t border-slate-100 pt-4 space-y-3">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                <div className="border-t border-slate-100 pt-4 space-y-3 dark:border-slate-800">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
                     Historial de notas del equipo ({notes.length})
                   </h4>
                   {notes.map((note) => (
                     <div
                       key={note.id}
-                      className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 text-xs shadow-2xs"
+                      className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 text-xs shadow-2xs dark:border-slate-700/80 dark:bg-slate-800/50"
                     >
-                      <div className="flex items-center justify-between text-[11px] text-slate-500 mb-1.5">
-                        <span className="font-bold text-slate-800">
+                      <div className="flex items-center justify-between text-[11px] text-slate-500 mb-1.5 dark:text-slate-400">
+                        <span className="font-bold text-slate-800 dark:text-slate-200">
                           {note.author?.name ?? "Usuario"}
                         </span>
                         <span>
                           {dateFormatter.format(new Date(note.createdAt))}
                         </span>
                       </div>
-                      <p className="whitespace-pre-wrap text-slate-800 text-xs leading-relaxed">
+                      <p className="whitespace-pre-wrap text-slate-800 text-xs leading-relaxed dark:text-slate-200">
                         {note.body}
                       </p>
                     </div>
                   ))}
                 </div>
               ) : (
-                <p className="text-xs text-slate-400 italic">
+                <p className="text-xs text-slate-400 italic dark:text-slate-500">
                   Aún no hay notas internas registradas para este ticket.
                 </p>
               )}
@@ -910,11 +910,11 @@ export function TicketManager({
           {activeTab === "resolve" && (
             <div className="flex flex-col gap-5">
               <div>
-                <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2">
+                <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2 dark:text-slate-100">
                   <span>🎯</span>
                   <span>Cierre Oficial y Resolución del Caso</span>
                 </h3>
-                <p className="mt-0.5 text-xs text-slate-500">
+                <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">
                   Al completar la atención, redacta la nota de resolución técnica. Se marcará como cumplido y se generará el PDF oficial.
                 </p>
               </div>
@@ -922,7 +922,7 @@ export function TicketManager({
               {open ? (
                 <form action={resolveAction} className="flex flex-col gap-3">
                   <input type="hidden" name="ticketId" value={ticket.id} />
-                  <label htmlFor="tabResolutionNotes" className="text-xs font-semibold text-slate-700">
+                  <label htmlFor="tabResolutionNotes" className="text-xs font-semibold text-slate-700 dark:text-slate-300">
                     Solución aplicada y verificación técnica:
                   </label>
                   <textarea
@@ -944,12 +944,12 @@ export function TicketManager({
                   <Feedback state={resolveState} />
                 </form>
               ) : (
-                <div className="rounded-xl border border-emerald-200 bg-emerald-50/90 p-5 text-center">
+                <div className="rounded-xl border border-emerald-200 bg-emerald-50/90 p-5 text-center dark:border-emerald-800 dark:bg-emerald-950/50">
                   <span className="text-3xl">🎉</span>
-                  <h4 className="mt-2 font-bold text-sm text-emerald-950">
+                  <h4 className="mt-2 font-bold text-sm text-emerald-950 dark:text-emerald-200">
                     Ticket cerrado y completado
                   </h4>
-                  <p className="mt-1 text-xs text-emerald-700">
+                  <p className="mt-1 text-xs text-emerald-700 dark:text-emerald-300">
                     Este ticket fue cerrado satisfactoriamente. El informe oficial en PDF se encuentra disponible para descarga.
                   </p>
                   <div className="mt-4">
@@ -972,13 +972,13 @@ export function TicketManager({
             <div className="flex flex-col gap-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 {/* Subcolumna 1: Mensajes */}
-                <div className="flex flex-col gap-3 rounded-xl border border-slate-200 bg-slate-50/50 p-4">
-                  <div className="flex items-center justify-between border-b border-slate-200 pb-2">
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+                <div className="flex flex-col gap-3 rounded-xl border border-slate-200 bg-slate-50/50 p-4 dark:border-slate-800 dark:bg-slate-800/40">
+                  <div className="flex items-center justify-between border-b border-slate-200 pb-2 dark:border-slate-700">
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 flex items-center gap-1.5 dark:text-slate-100">
                       <span>💬</span>
                       <span>Mensajes al Cliente</span>
                     </h4>
-                    <span className="rounded-full bg-blue-100 px-2 py-0.5 text-[10px] font-bold text-blue-700">
+                    <span className="rounded-full bg-blue-100 px-2 py-0.5 text-[10px] font-bold text-blue-700 dark:bg-blue-950/70 dark:text-blue-300">
                       {messages.length}
                     </span>
                   </div>
@@ -1004,9 +1004,9 @@ export function TicketManager({
                   {messages.length > 0 ? (
                     <div className="max-h-60 overflow-y-auto space-y-2 pr-1">
                       {messages.map((m) => (
-                        <div key={m.id} className="rounded-lg border border-blue-200 bg-white p-2.5 text-xs">
-                          <p className="font-semibold text-[11px] text-slate-700">{m.author?.name ?? "Usuario"}</p>
-                          <p className="text-slate-600 mt-1 whitespace-pre-wrap">{m.body}</p>
+                        <div key={m.id} className="rounded-lg border border-blue-200 bg-white p-2.5 text-xs dark:border-blue-900/60 dark:bg-slate-900">
+                          <p className="font-semibold text-[11px] text-slate-700 dark:text-slate-200">{m.author?.name ?? "Usuario"}</p>
+                          <p className="text-slate-600 mt-1 whitespace-pre-wrap dark:text-slate-300">{m.body}</p>
                         </div>
                       ))}
                     </div>
@@ -1014,13 +1014,13 @@ export function TicketManager({
                 </div>
 
                 {/* Subcolumna 2: Notas */}
-                <div className="flex flex-col gap-3 rounded-xl border border-slate-200 bg-slate-50/50 p-4">
-                  <div className="flex items-center justify-between border-b border-slate-200 pb-2">
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+                <div className="flex flex-col gap-3 rounded-xl border border-slate-200 bg-slate-50/50 p-4 dark:border-slate-800 dark:bg-slate-800/40">
+                  <div className="flex items-center justify-between border-b border-slate-200 pb-2 dark:border-slate-700">
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 flex items-center gap-1.5 dark:text-slate-100">
                       <span>📝</span>
                       <span>Notas Internas</span>
                     </h4>
-                    <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-bold text-amber-700">
+                    <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-bold text-amber-700 dark:bg-amber-950/70 dark:text-amber-300">
                       {notes.length}
                     </span>
                   </div>
@@ -1046,9 +1046,9 @@ export function TicketManager({
                   {notes.length > 0 ? (
                     <div className="max-h-60 overflow-y-auto space-y-2 pr-1">
                       {notes.map((n) => (
-                        <div key={n.id} className="rounded-lg border border-slate-200 bg-white p-2.5 text-xs">
-                          <p className="font-semibold text-[11px] text-slate-700">{n.author?.name ?? "Usuario"}</p>
-                          <p className="text-slate-600 mt-1 whitespace-pre-wrap">{n.body}</p>
+                        <div key={n.id} className="rounded-lg border border-slate-200 bg-white p-2.5 text-xs dark:border-slate-700 dark:bg-slate-900">
+                          <p className="font-semibold text-[11px] text-slate-700 dark:text-slate-200">{n.author?.name ?? "Usuario"}</p>
+                          <p className="text-slate-600 mt-1 whitespace-pre-wrap dark:text-slate-300">{n.body}</p>
                         </div>
                       ))}
                     </div>
@@ -1057,8 +1057,8 @@ export function TicketManager({
               </div>
 
               {/* Bloque inferior: Cierre oficial */}
-              <div className="rounded-xl border border-slate-200 bg-slate-50/50 p-4">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 flex items-center gap-1.5 mb-2">
+              <div className="rounded-xl border border-slate-200 bg-slate-50/50 p-4 dark:border-slate-800 dark:bg-slate-800/40">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 flex items-center gap-1.5 mb-2 dark:text-slate-100">
                   <span>🎯</span>
                   <span>Cierre Oficial del Ticket</span>
                 </h4>
@@ -1083,7 +1083,7 @@ export function TicketManager({
                     <Feedback state={resolveState} />
                   </form>
                 ) : (
-                  <p className="text-xs font-semibold text-emerald-800">
+                  <p className="text-xs font-semibold text-emerald-800 dark:text-emerald-300">
                     ✓ Este ticket ya se encuentra cerrado oficialmente.
                   </p>
                 )}

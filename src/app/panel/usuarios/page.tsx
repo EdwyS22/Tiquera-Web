@@ -35,14 +35,14 @@ export default async function UsersPage() {
       <Link
         href="/panel"
         aria-label="Volver al panel"
-        className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-xs transition hover:bg-slate-50 hover:text-slate-900 active:bg-slate-100"
+        className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-xs transition hover:bg-slate-50 hover:text-slate-900 active:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
       >
         <span className="text-base font-bold leading-none">&larr;</span>
       </Link>
 
       <header>
-        <h1 className="text-2xl font-bold tracking-tight">Gestion de usuarios</h1>
-        <p className="mt-1 text-sm text-slate-600">
+        <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Gestion de usuarios</h1>
+        <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
           Solo visible para admins. Cada usuario se conecta con el correo con el
           que fue creado para recibir notificaciones.
         </p>

@@ -47,7 +47,7 @@ export const AREA_CONFIG: Record<TicketArea, AreaInfo> = {
     label: "Estrategia Empresarial",
     role: "Consultores estratégicos y analistas de negocio que traducen la visión en decisiones medibles.",
     icon: "🎯",
-    style: "bg-purple-50 text-purple-700 border-purple-200",
+    style: "bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-950/50 dark:text-purple-300 dark:border-purple-800",
     products: [
       {
         name: "Diagnóstico Organizacional Integral",
@@ -71,7 +71,7 @@ export const AREA_CONFIG: Record<TicketArea, AreaInfo> = {
     label: "Tecnología",
     role: "Ingenieros de software, desarrolladores full-stack, especialistas en IA y arquitectos de sistemas.",
     icon: "💻",
-    style: "bg-blue-50 text-blue-700 border-blue-200",
+    style: "bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/50 dark:text-blue-300 dark:border-blue-800",
     products: [
       {
         name: "Plataforma de Delivery",
@@ -95,7 +95,7 @@ export const AREA_CONFIG: Record<TicketArea, AreaInfo> = {
     label: "Marketing",
     role: "Mercadólogos, diseñadores y gestores de contenido que convierten la marca en demanda.",
     icon: "📈",
-    style: "bg-rose-50 text-rose-700 border-rose-200",
+    style: "bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-950/50 dark:text-rose-300 dark:border-rose-800",
     products: [
       {
         name: "Identidad Corporativa",
@@ -119,7 +119,7 @@ export const AREA_CONFIG: Record<TicketArea, AreaInfo> = {
     label: "Finanzas",
     role: "Contadores, administradores y analistas financieros que blindan la viabilidad de cada operación.",
     icon: "💰",
-    style: "bg-emerald-50 text-emerald-700 border-emerald-200",
+    style: "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-800",
     products: [
       {
         name: "Diagnóstico Financiero",
@@ -199,11 +199,11 @@ export const STATUS_LABELS: Record<TicketStatus, string> = {
 };
 
 export const STATUS_STYLES: Record<TicketStatus, string> = {
-  pending: "bg-amber-100 text-amber-800",
-  in_progress: "bg-sky-100 text-sky-800",
-  in_review: "bg-violet-100 text-violet-800",
-  completed: "bg-emerald-100 text-emerald-800",
-  expired: "bg-zinc-200 text-zinc-700",
+  pending: "bg-amber-100 text-amber-800 dark:bg-amber-950/70 dark:text-amber-300",
+  in_progress: "bg-sky-100 text-sky-800 dark:bg-sky-950/70 dark:text-sky-300",
+  in_review: "bg-violet-100 text-violet-800 dark:bg-violet-950/70 dark:text-violet-300",
+  completed: "bg-emerald-100 text-emerald-800 dark:bg-emerald-950/70 dark:text-emerald-300",
+  expired: "bg-zinc-200 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300",
 };
 
 export const CATEGORY_LABELS: Record<TicketCategory, string> = {
@@ -220,9 +220,9 @@ export const PRIORITY_LABELS: Record<TicketPriority, string> = {
 };
 
 export const PRIORITY_STYLES: Record<TicketPriority, string> = {
-  high: "bg-red-100 text-red-700",
-  medium: "bg-amber-100 text-amber-700",
-  low: "bg-slate-100 text-slate-600",
+  high: "bg-red-100 text-red-700 dark:bg-red-950/70 dark:text-red-300",
+  medium: "bg-amber-100 text-amber-700 dark:bg-amber-950/70 dark:text-amber-300",
+  low: "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300",
 };
 
 export const PRIORITY_ORDER: Record<TicketPriority, number> = {

@@ -296,7 +296,7 @@ export function NotificationsBell() {
       {/* Botón de la Campana (<summary> nativo) */}
       <summary
         aria-label="Notificaciones"
-        className="relative flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700 transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500/20 active:bg-slate-100 list-none [&::-webkit-details-marker]:hidden cursor-pointer select-none"
+        className="relative flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700 transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500/20 active:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800 list-none [&::-webkit-details-marker]:hidden cursor-pointer select-none"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -314,19 +314,19 @@ export function NotificationsBell() {
         </svg>
 
         {count > 0 ? (
-          <span className="pointer-events-none absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-red-600 px-1 text-[10px] font-bold text-white shadow-xs ring-2 ring-white">
+          <span className="pointer-events-none absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-red-600 px-1 text-[10px] font-bold text-white shadow-xs ring-2 ring-white dark:ring-slate-900">
             {count > 9 ? "9+" : count}
           </span>
         ) : null}
       </summary>
 
       {/* Caja del menú: en móvil tarjeta centrada con márgenes; en desktop anclada a la derecha */}
-      <div className="fixed inset-x-3 top-16 z-50 max-h-[82vh] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl sm:absolute sm:inset-auto sm:right-0 sm:top-full sm:mt-2 sm:w-[420px]">
+      <div className="fixed inset-x-3 top-16 z-50 max-h-[82vh] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl dark:border-slate-800 dark:bg-slate-900 sm:absolute sm:inset-auto sm:right-0 sm:top-full sm:mt-2 sm:w-[420px]">
         {/* Cabecera Superior */}
-        <div className="border-b border-slate-100 bg-slate-50/90 px-4 py-3">
+        <div className="border-b border-slate-100 bg-slate-50/90 dark:border-slate-800 dark:bg-slate-950/90 px-4 py-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <span className="font-bold text-slate-900 text-sm">
+              <span className="font-bold text-slate-900 dark:text-white text-sm">
                 Notificaciones
               </span>
               {count > 0 ? (
@@ -341,7 +341,7 @@ export function NotificationsBell() {
                 <button
                   type="button"
                   onClick={handleMarkAll}
-                  className="inline-flex items-center gap-1 text-xs font-semibold text-blue-600 hover:text-blue-700 transition"
+                  className="inline-flex items-center gap-1 text-xs font-semibold text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -366,7 +366,7 @@ export function NotificationsBell() {
                 type="button"
                 onClick={closeMenu}
                 aria-label="Cerrar notificaciones"
-                className="sm:hidden -mr-1 p-1 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-200/60"
+                className="sm:hidden -mr-1 p-1 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-200/60 dark:text-slate-500 dark:hover:text-slate-300 dark:hover:bg-slate-800"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -383,14 +383,14 @@ export function NotificationsBell() {
           </div>
 
           {/* Filtro ordenado: Todas vs Solo no leídas */}
-          <div className="mt-2.5 flex items-center gap-1 rounded-lg bg-slate-200/60 p-0.5 text-xs">
+          <div className="mt-2.5 flex items-center gap-1 rounded-lg bg-slate-200/60 dark:bg-slate-800 p-0.5 text-xs">
             <button
               type="button"
               onClick={() => setFilter("all")}
               className={`flex-1 rounded-md py-1 font-semibold transition ${
                 filter === "all"
-                  ? "bg-white text-slate-900 shadow-xs"
-                  : "text-slate-600 hover:text-slate-900"
+                  ? "bg-white text-slate-900 shadow-xs dark:bg-slate-700 dark:text-white"
+                  : "text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
               }`}
             >
               Todas ({items.length})
@@ -400,8 +400,8 @@ export function NotificationsBell() {
               onClick={() => setFilter("unread")}
               className={`flex-1 rounded-md py-1 font-semibold transition ${
                 filter === "unread"
-                  ? "bg-white text-slate-900 shadow-xs"
-                  : "text-slate-600 hover:text-slate-900"
+                  ? "bg-white text-slate-900 shadow-xs dark:bg-slate-700 dark:text-white"
+                  : "text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
               }`}
             >
               No leídas ({unreadItems.length})
@@ -412,7 +412,7 @@ export function NotificationsBell() {
         {/* Lista con Agrupación Ordenada */}
         {displayedItems.length === 0 ? (
           <div className="px-4 py-10 text-center">
-            <div className="mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-400">
+            <div className="mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-400 dark:bg-slate-800 dark:text-slate-500">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -428,22 +428,22 @@ export function NotificationsBell() {
                 />
               </svg>
             </div>
-            <p className="text-sm font-semibold text-slate-800">
+            <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">
               {filter === "unread"
                 ? "No tienes notificaciones pendientes"
                 : "No hay notificaciones registradas"}
             </p>
-            <p className="text-xs text-slate-400 mt-0.5">
+            <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">
               Los avisos de tus tickets aparecerán organizados aquí.
             </p>
           </div>
         ) : (
-          <div className="max-h-[380px] overflow-y-auto divide-y divide-slate-100">
+          <div className="max-h-[380px] overflow-y-auto divide-y divide-slate-100 dark:divide-slate-800">
             {/* Bloque: Nuevas */}
             {filter === "all" && unreadItems.length > 0 ? (
-              <div className="bg-blue-50/40 px-4 py-1.5 text-[10px] font-bold uppercase tracking-wider text-blue-700 flex items-center justify-between">
+              <div className="bg-blue-50/40 dark:bg-blue-950/40 px-4 py-1.5 text-[10px] font-bold uppercase tracking-wider text-blue-700 dark:text-blue-300 flex items-center justify-between">
                 <span>Nuevas</span>
-                <span className="rounded-full bg-blue-200/70 px-1.5 py-0.2 text-[10px] text-blue-800 font-bold">
+                <span className="rounded-full bg-blue-200/70 dark:bg-blue-900/60 px-1.5 py-0.2 text-[10px] text-blue-800 dark:text-blue-200 font-bold">
                   {unreadItems.length}
                 </span>
               </div>
@@ -458,8 +458,8 @@ export function NotificationsBell() {
                   key={item.id}
                   className={`p-3.5 transition ${
                     isUnread
-                      ? "bg-blue-50/25 hover:bg-blue-50/50"
-                      : "bg-white hover:bg-slate-50"
+                      ? "bg-blue-50/25 hover:bg-blue-50/50 dark:bg-blue-950/30 dark:hover:bg-blue-950/50"
+                      : "bg-white hover:bg-slate-50 dark:bg-slate-900 dark:hover:bg-slate-800/60"
                   }`}
                 >
                   <div className="flex items-start gap-3">
@@ -473,41 +473,41 @@ export function NotificationsBell() {
                             <Link
                               href={`/panel/ticket/${item.ticket.id}`}
                               onClick={closeMenu}
-                              className="font-bold text-blue-600 hover:underline bg-blue-50 px-1.5 py-0.5 rounded text-[11px]"
+                              className="font-bold text-blue-600 dark:text-blue-400 hover:underline bg-blue-50 dark:bg-blue-950/60 px-1.5 py-0.5 rounded text-[11px]"
                             >
                               #{item.ticket.code}
                             </Link>
                           ) : null}
-                          <span className="text-slate-400">
+                          <span className="text-slate-400 dark:text-slate-500">
                             {formatRelative(item.createdAt)}
                           </span>
                         </div>
 
                         {isUnread ? (
-                          <span className="flex items-center gap-1 text-[10px] font-bold text-blue-700">
-                            <span className="h-2 w-2 rounded-full bg-blue-600" />
+                          <span className="flex items-center gap-1 text-[10px] font-bold text-blue-700 dark:text-blue-400">
+                            <span className="h-2 w-2 rounded-full bg-blue-600 dark:bg-blue-400" />
                             Nueva
                           </span>
                         ) : null}
                       </div>
 
                       {/* Fila 2: Título */}
-                      <h4 className="mt-1 text-xs font-bold text-slate-900 leading-snug">
+                      <h4 className="mt-1 text-xs font-bold text-slate-900 dark:text-white leading-snug">
                         {item.title}
                       </h4>
 
                       {/* Fila 3: Descripción */}
-                      <p className="mt-0.5 text-xs text-slate-600 leading-relaxed line-clamp-2">
+                      <p className="mt-0.5 text-xs text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-2">
                         {item.body}
                       </p>
 
                       {/* Fila 4: Acciones limpias */}
-                      <div className="mt-2.5 flex items-center justify-between pt-2 border-t border-slate-100/80 text-xs">
+                      <div className="mt-2.5 flex items-center justify-between pt-2 border-t border-slate-100/80 dark:border-slate-800/80 text-xs">
                         {item.ticket ? (
                           <Link
                             href={`/panel/ticket/${item.ticket.id}`}
                             onClick={closeMenu}
-                            className="inline-flex items-center gap-1 text-xs font-semibold text-blue-600 hover:text-blue-700 hover:underline"
+                            className="inline-flex items-center gap-1 text-xs font-semibold text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 hover:underline"
                           >
                             Ver ticket &rarr;
                           </Link>
@@ -517,7 +517,7 @@ export function NotificationsBell() {
                           <button
                             type="button"
                             onClick={() => handleMarkOne(item.id)}
-                            className="inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-slate-500 hover:bg-slate-100 hover:text-slate-800 font-medium transition text-[11px]"
+                            className="inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-slate-500 hover:bg-slate-100 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-200 font-medium transition text-[11px]"
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -525,7 +525,7 @@ export function NotificationsBell() {
                               viewBox="0 0 24 24"
                               strokeWidth={2}
                               stroke="currentColor"
-                              className="h-3 w-3 text-emerald-600"
+                              className="h-3 w-3 text-emerald-600 dark:text-emerald-400"
                             >
                               <path
                                 strokeLinecap="round"
@@ -545,7 +545,7 @@ export function NotificationsBell() {
 
             {/* Separador de 'Anteriores' */}
             {filter === "all" && readItems.length > 0 && unreadItems.length > 0 ? (
-              <div className="bg-slate-100/80 px-4 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-500">
+              <div className="bg-slate-100/80 dark:bg-slate-950/60 px-4 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                 Anteriores
               </div>
             ) : null}
@@ -555,7 +555,7 @@ export function NotificationsBell() {
               readItems.map((item) => (
                 <div
                   key={item.id}
-                  className="p-3.5 bg-white hover:bg-slate-50 transition"
+                  className="p-3.5 bg-white hover:bg-slate-50 dark:bg-slate-900 dark:hover:bg-slate-800/60 transition"
                 >
                   <div className="flex items-start gap-3">
                     <NotificationIcon type={item.type} />
@@ -568,38 +568,38 @@ export function NotificationsBell() {
                             <Link
                               href={`/panel/ticket/${item.ticket.id}`}
                               onClick={closeMenu}
-                              className="font-bold text-slate-700 hover:underline bg-slate-100 px-1.5 py-0.5 rounded text-[11px]"
+                              className="font-bold text-slate-700 dark:text-slate-300 hover:underline bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded text-[11px]"
                             >
                               #{item.ticket.code}
                             </Link>
                           ) : null}
-                          <span className="text-slate-400">
+                          <span className="text-slate-400 dark:text-slate-500">
                             {formatRelative(item.createdAt)}
                           </span>
                         </div>
 
-                        <span className="text-[10px] text-slate-400 font-medium">
+                        <span className="text-[10px] text-slate-400 dark:text-slate-500 font-medium">
                           Leída
                         </span>
                       </div>
 
                       {/* Fila 2: Título */}
-                      <h4 className="mt-1 text-xs font-semibold text-slate-800 leading-snug">
+                      <h4 className="mt-1 text-xs font-semibold text-slate-800 dark:text-slate-200 leading-snug">
                         {item.title}
                       </h4>
 
                       {/* Fila 3: Descripción */}
-                      <p className="mt-0.5 text-xs text-slate-500 leading-relaxed line-clamp-2">
+                      <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-2">
                         {item.body}
                       </p>
 
                       {/* Fila 4: Ver ticket */}
                       {item.ticket ? (
-                        <div className="mt-2.5 flex items-center justify-end pt-1.5 border-t border-slate-100/60 text-xs">
+                        <div className="mt-2.5 flex items-center justify-end pt-1.5 border-t border-slate-100/60 dark:border-slate-800/60 text-xs">
                           <Link
                             href={`/panel/ticket/${item.ticket.id}`}
                             onClick={closeMenu}
-                            className="inline-flex items-center gap-1 text-xs font-semibold text-slate-600 hover:text-blue-600 hover:underline"
+                            className="inline-flex items-center gap-1 text-xs font-semibold text-slate-600 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-400 hover:underline"
                           >
                             Ver ticket &rarr;
                           </Link>
@@ -616,7 +616,7 @@ export function NotificationsBell() {
         <Link
           href="/panel/notificaciones"
           onClick={closeMenu}
-          className="flex items-center justify-center gap-1.5 border-t border-slate-100 bg-slate-50/90 px-4 py-2.5 text-center text-xs font-semibold text-blue-600 hover:bg-slate-100 hover:text-blue-700 transition"
+          className="flex items-center justify-center gap-1.5 border-t border-slate-100 dark:border-slate-800 bg-slate-50/90 dark:bg-slate-950/90 px-4 py-2.5 text-center text-xs font-semibold text-blue-600 dark:text-blue-400 hover:bg-slate-100 dark:hover:bg-slate-800/80 hover:text-blue-700 dark:hover:text-blue-300 transition"
         >
           <span>Ver centro de notificaciones completo</span>
           <svg
