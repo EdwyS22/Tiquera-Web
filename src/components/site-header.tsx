@@ -13,7 +13,7 @@ export function SiteHeader() {
         >
           <Image
             src="/logo.png"
-            alt="Logo Vionest Service"
+            alt="Logo Vionest Services"
             width={38}
             height={38}
             className="h-9 w-9 object-contain"
@@ -23,7 +23,7 @@ export function SiteHeader() {
           <div className="flex flex-col">
             <span className="leading-tight text-slate-900 dark:text-white">Tiquera Web</span>
             <span className="text-[10px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">
-              Vionest Service
+              Vionest Services
             </span>
           </div>
         </Link>

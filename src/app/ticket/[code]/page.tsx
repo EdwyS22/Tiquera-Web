@@ -286,10 +286,10 @@ export default async function TicketPage({
         <footer className="mt-8 border-t border-slate-200/80 pt-6 text-center text-xs text-slate-400 dark:border-slate-800 dark:text-slate-500">
           <p>
             Sistema oficial de soporte y atención desarrollado para{" "}
-            <strong className="font-semibold text-slate-700 dark:text-slate-300">Vionest Service</strong>
+            <strong className="font-semibold text-slate-700 dark:text-slate-300">Vionest Services</strong>
           </p>
           <p className="mt-1">
-            &copy; {new Date().getFullYear()} Vionest Service. Todos los derechos reservados.
+            &copy; {new Date().getFullYear()} Vionest Services. Todos los derechos reservados.
           </p>
         </footer>
       </main>

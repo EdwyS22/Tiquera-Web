@@ -18,7 +18,7 @@ export default function LoginPage() {
         <div className="mb-6 flex items-center gap-3">
           <Image
             src="/logo.png"
-            alt="Logo Vionest Service"
+            alt="Logo Vionest Services"
             width={48}
             height={48}
             className="h-12 w-12 object-contain"
@@ -30,19 +30,19 @@ export default function LoginPage() {
               Tiquera Web
             </span>
             <span className="text-xs text-blue-600 dark:text-blue-400 font-bold uppercase tracking-wider block">
-              Vionest Service
+              Vionest Services
             </span>
           </div>
         </div>
         <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Panel del equipo</h1>
         <p className="mt-1.5 text-sm text-slate-600 dark:text-slate-300">
-          Inicia sesión con tu correo institucional de Vionest Service.
+          Inicia sesión con tu correo institucional de Vionest Services.
         </p>
         <div className="mt-6">
           <LoginForm />
         </div>
         <p className="mt-6 text-center text-xs text-slate-400 dark:text-slate-500">
-          Plataforma oficial desarrollada para Vionest Service &copy; {new Date().getFullYear()}
+          Plataforma oficial desarrollada para Vionest Services &copy; {new Date().getFullYear()}
         </p>
       </div>
     </main>

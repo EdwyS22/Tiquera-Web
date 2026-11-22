@@ -26,7 +26,7 @@ export default async function PanelLayout({
             >
               <Image
                 src="/logo.png"
-                alt="Logo Vionest Service"
+                alt="Logo Vionest Services"
                 width={38}
                 height={38}
                 className="h-9 w-9 object-contain"
@@ -36,7 +36,7 @@ export default async function PanelLayout({
               <div className="flex flex-col">
                 <span className="font-bold tracking-tight leading-tight text-slate-900 dark:text-white">Tiquera Web</span>
                 <span className="text-[10px] font-bold tracking-wider text-blue-600 dark:text-blue-400 uppercase">
-                  Vionest Service
+                  Vionest Services
                 </span>
               </div>
             </Link>

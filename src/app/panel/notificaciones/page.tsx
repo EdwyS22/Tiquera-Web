@@ -5,7 +5,7 @@ import { requireStaff } from "@/lib/dal";
 import { prisma } from "@/lib/db";
 
 export const metadata: Metadata = {
-  title: "Notificaciones | Vionest Service",
+  title: "Notificaciones | Vionest Services",
 };
 
 export default async function NotificationsPage() {

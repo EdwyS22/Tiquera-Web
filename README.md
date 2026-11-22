@@ -1,9 +1,9 @@
-# 🎫 Tiquera Web — Sistema de Gestión de Tickets para Vionest Service
+# 🎫 Tiquera Web — Sistema de Gestión de Tickets para Vionest Services
 
-> **Plataforma oficial desarrollada a medida para Vionest Service.**  
+> **Plataforma oficial desarrollada a medida para Vionest Services.**  
 > Sistema web moderno, rápido y profesional para la recepción, enrutamiento, seguimiento y resolución de incidencias y solicitudes de clientes en tiempo real.
 
-Diseñada exclusivamente para **Vionest Service** con el objetivo de centralizar todo el soporte operativo en un tablero interactivo con control estricto de SLA (tiempos de respuesta de 24 horas), auditoría completa, generación de reportes en PDF y notificaciones automáticas por correo.
+Diseñada exclusivamente para **Vionest Services** con el objetivo de centralizar todo el soporte operativo en un tablero interactivo con control estricto de SLA (tiempos de respuesta de 24 horas), auditoría completa, generación de reportes en PDF y notificaciones automáticas por correo.
 
 ---
 
@@ -145,4 +145,4 @@ El proyecto está 100% adaptado para desplegarse en Vercel con un solo clic:
 
 ## 🏢 Propiedad y Derechos
 
-Este proyecto es software privado de gestión empresarial desarrollado exclusivamente para **Vionest Service**. Todos los derechos reservados &copy; {new Date().getFullYear()} Vionest Service.
+Este proyecto es software privado de gestión empresarial desarrollado exclusivamente para **Vionest Services**. Todos los derechos reservados &copy; {new Date().getFullYear()} Vionest Services.
